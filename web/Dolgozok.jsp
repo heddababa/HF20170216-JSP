@@ -26,7 +26,6 @@
       <input type="submit" value="Részleg válsztás" />
     </form>
     <hr>
-    <p><%=request.getParameter("reszlegId")%></p>
     <%= lekerdez.getDolgozokAdatai(request.getParameter("reszlegId"))%>
     <hr>
       <a href="loginOK.jsp">Vissza</a>
