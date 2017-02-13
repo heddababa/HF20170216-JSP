@@ -66,10 +66,12 @@
         </tr>
       </table>
         <br><br>
-      Új fizetés:<input type="text" name="username"><br>
-      <input type="submit" value="Mehet">
-      <hr>
-      <p><a href="loginOK.jsp">Foablakra (Igazabol ellenorzes kell mentes utan)</a></p>
-      <% }%>
+        <form action="fizetesEllenorzes.jsp" method="post">
+          Új fizetés:<input type="text" name="fizetes"><br>
+          <input type="submit" value="Mehet">
+        </form>
+        <hr>
+        <% } %>
+        <!--<p><a href="loginOK.jsp">Foablakra (Igazabol ellenorzes kell mentes utan)</a></p>-->
   </body>
 </html>

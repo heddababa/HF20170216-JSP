@@ -1,5 +1,6 @@
 package lekerdez;
 
+import com.sun.xml.internal.ws.api.ha.StickyFeature;
 import java.io.File;
 import java.io.IOException;
 import java.security.MessageDigest;
@@ -107,6 +108,15 @@ public class AdatbazisLekerdezBean implements AdatbazisKapcsolat {
     return s;
   }
   
+  public String getMaxFizetes(String userId){
+    
+    return "";
+  }
+  
+  public String getMinFizetes(String userId){
+    
+    return "";
+  }
   
   private void kapcsolatNyit() {
     try {
