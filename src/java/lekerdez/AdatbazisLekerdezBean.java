@@ -62,6 +62,7 @@ public class AdatbazisLekerdezBean implements AdatbazisKapcsolat {
       Connection kapcsolat=DriverManager.getConnection(URL, USER, PASSWORD);
       Statement s = kapcsolat.createStatement();
       ResultSet rs = s.executeQuery(sql);
+      
       táblázat=táblázatotKészít(rs); //html szoveget epit a lekerdezes eredmenyebol
       kapcsolat.close();
     }
@@ -76,13 +77,22 @@ public class AdatbazisLekerdezBean implements AdatbazisKapcsolat {
     try {
       s+="<table border=\"1\"><tr>";
       ResultSetMetaData metaadat=rs.getMetaData();
-      for(int i=0; i<metaadat.getColumnCount(); i++)
+      for(int i=1; i<metaadat.getColumnCount(); i++)
         s+="<td>"+metaadat.getColumnName(i+1)+"</td>";
       s+="</td>";
-      while(rs.next()) {
-        s+="<tr>";
-        for(int i=0; i<metaadat.getColumnCount(); i++){
-          if (i==3) {
+      
+      while (rs.next()) {
+        Dolgozo dolgozo = new Dolgozo(rs.getInt("empId"),
+                rs.getString("Dolgozó"),
+                0,
+                rs.getString("Részleg"),                          /*rs.getInt("depId") == 0 ? "Részleg nélküli" : rs.getString("depName"),*/
+                rs.getString("Munkakör"),
+                rs.getInt("Fizetés"),
+                rs.getDate("Belépési_dátum"));
+
+        s += "<tr>";
+        for (int i = 1; i < metaadat.getColumnCount(); i++) {
+          if (i==4) {
             s+="<td><a href=\"fizetesModositas.jsp?id="+rs.getObject(1)+"\">"+rs.getObject(i+1)+"</a></td>";
           }else{
             s+="<td>"+rs.getObject(i+1)+"</td>";
@@ -102,7 +112,8 @@ public class AdatbazisLekerdezBean implements AdatbazisKapcsolat {
   
   public String getDolgozokAdatai() {
     return lekerdez(
-      "SELECT E.FIRST_NAME || ' ' || E.LAST_NAME AS Dolgozó,\n" +
+      "SELECT E.EMPLOYEE_ID AS empId, "+
+      "E.FIRST_NAME || ' ' || E.LAST_NAME AS Dolgozó,\n" +
       "D.DEPARTMENT_NAME AS Részleg,\n" +
       "JOBS.JOB_TITLE as Munkakör,\n" +
       "E.SALARY as Fizetés,\n" +
