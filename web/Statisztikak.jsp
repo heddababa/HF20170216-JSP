@@ -1,8 +1,4 @@
-<%-- 
-    Document   : Statisztikak
-    Created on : Feb 13, 2017, 10:13:03 PM
-    Author     : Karoly
---%>
+
 
 <%@page contentType="text/html" pageEncoding="ISO-8859-2"%>
 <!DOCTYPE html>
