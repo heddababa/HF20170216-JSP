@@ -22,7 +22,7 @@ public class AdatbazisLekerdezBean implements AdatbazisKapcsolat {
   private int hibakod;
   
   //private File xmlFájl=new File("../web/META-INF/userek.xml"); //c:\BH01\Hf-20170216-JSP\web\META-INF\
-  private File xmlFájl=new File("c:/BH01/Hf-20170216-JSP/web/META-INF/userek.xml");
+  private File xmlFájl=new File("userek.xml");
   //private File xmlFájl=new File("./META-INF/userek.xml");
   
   public AdatbazisLekerdezBean() {
@@ -81,8 +81,13 @@ public class AdatbazisLekerdezBean implements AdatbazisKapcsolat {
       s+="</td>";
       while(rs.next()) {
         s+="<tr>";
-        for(int i=0; i<metaadat.getColumnCount(); i++)
-          s+="<td>"+rs.getObject(i+1)+"</td>";
+        for(int i=0; i<metaadat.getColumnCount(); i++){
+          if (i==3) {
+            s+="<td><a href=\"fizetesModositas.jsp?id="+rs.getObject(1)+"\">"+rs.getObject(i+1)+"</a></td>";
+          }else{
+            s+="<td>"+rs.getObject(i+1)+"</td>";
+          }
+        }
         s+="</tr>";
       } 
       s+="</table>";
@@ -92,6 +97,8 @@ public class AdatbazisLekerdezBean implements AdatbazisKapcsolat {
     }    
     return s;
   }
+  
+  //"<a href="employee.jsp?id=<%= employee.getId() %>"><%= employee.getSalary() %></a>"
   
   public String getDolgozokAdatai() {
     return lekerdez(

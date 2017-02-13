@@ -7,17 +7,23 @@
   </head>  
   <body>
     <% if(session.getAttribute("felhasznalonev")==null) { %>
-      <h1>Oracle HR JSP kezelõ (Új dolgozó felvitele oldal)</h1>
+      <h1>Oracle HR JSP kezelõ (Fizetés módosítás oldal)</h1>
       <hr>
       <p>Az oldal tartalma csak bejelentkezés után érhetõ el.</p>
       <hr>
       <p><a href="loginOK.jsp">Vissza a "foablakra"</a></p>
     <% } else { %>
       <h1>Oracle HR JSP kezelõ 
-        (bejelentkezve: <%= session.getAttribute("felhasznalonev") %>)</h1> <%--TODO Jogkort kiiratni--%>
+        (bejelentkezve: <%= session.getAttribute("felhasznalonev") %>)
+        <br>
+        Fizetés módosítás
+      </h1> <%--TODO Jogkort kiiratni--%>
       <hr>
-      <p>TODO Itt lenne a fizu modositas egy elozoleg kivalasztott dolgozo fizetesehez. A megengedett
-        ertekhatarokat ki kell iratni es kell egy mezo, meg egy mentes gomb</p> 
+      <p>
+        Ezt a dolgozót választottam ki: 
+        <%= request.getParameter("id") %>
+      </p> 
+      
       <hr>
       <p><a href="loginOK.jsp">Foablakra (Igazabol ellenorzes kell mentes utan)</a></p>
     <% } %>
