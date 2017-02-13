@@ -38,25 +38,36 @@
       </h1> <%--TODO Jogkort kiiratni--%>
       <p> A jogköröd: <%= lekerdez.getJogkor()%> </p>
       <hr>
-      <p>
-        Ezt a dolgozót választottam ki:<br> 
-        A dolgózó azonosítója = <%= request.getParameter("id")%><br>
-        A dolgozó neve = <%= lekerdez.getDolgozoNeve(request.getParameter("id"))%><br>
-        Részlege: <%= lekerdez.getDolgozoRszlege(request.getParameter("id"))%><br>
-        Munkaköre: <%= lekerdez.getDolgozoMunkakore(request.getParameter("id"))%><br>
-        Adható maximális fizetés: <%= "valami"%><br>
-        Adható minimális fizetés: <%= "vlami"%><br>
-      </p> 
+      Ezt a dolgozót választottam ki:<br> 
       <table>
         <tr>
           <td>A dolgózó azonosítója</td>
           <td><%= request.getParameter("id")%></td>
         </tr>
+        <tr>
+          <td>A dolgózó neve</td>
+          <td><%= lekerdez.getDolgozoNeve(request.getParameter("id"))%></td>
+        </tr>
+        <tr>
+          <td>Részlege</td>
+          <td><%= lekerdez.getDolgozoRszlege(request.getParameter("id"))%></td>
+        </tr>
+        <tr>
+          <td>Munkaköre</td>
+          <td><%= lekerdez.getDolgozoMunkakore(request.getParameter("id"))%></td>
+        </tr>
+        <tr>
+          <td>Adható maximális fizetés:</td>
+          <td><%= lekerdez.getMaxFizetes(request.getParameter("id")) %></td>
+        </tr>
+        <tr>
+          <td>Adható minimális fizetés: </td>
+          <td><%= lekerdez.getMinFizetes(request.getParameter("id"))%></td>
+        </tr>
       </table>
+        <br><br>
       Új fizetés:<input type="text" name="username"><br>
       <input type="submit" value="Mehet">
-
-
       <hr>
       <p><a href="loginOK.jsp">Foablakra (Igazabol ellenorzes kell mentes utan)</a></p>
       <% }%>

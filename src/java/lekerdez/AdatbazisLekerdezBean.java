@@ -70,12 +70,43 @@ public class AdatbazisLekerdezBean implements AdatbazisKapcsolat {
       i++;
     }
     if (i<dolgozok.size()) {
-      s=dolgozok.get(i).getNev()+" "+dolgozok.get(i).getReszlegNev()+" "+dolgozok.get(i).getMunkakor();
+      s=dolgozok.get(i).getNev();
     }else{
       s="nincs ilyen dolgozó";
     }
     return s;
   }
+  
+  public String getDolgozoRszlege(String id){
+    int i=0;
+    int id1=Integer.parseInt(id);
+    String s;
+    while (!(dolgozok.get(i).getEmpID()==id1)) {      
+      i++;
+    }
+    if (i<dolgozok.size()) {
+      s=dolgozok.get(i).getReszlegNev();
+    }else{
+      s="nincs ilyen dolgozó";
+    }
+    return s;
+  }
+
+  public String getDolgozoMunkakore(String id){
+    int i=0;
+    int id1=Integer.parseInt(id);
+    String s;
+    while (!(dolgozok.get(i).getEmpID()==id1)) {      
+      i++;
+    }
+    if (i<dolgozok.size()) {
+      s=dolgozok.get(i).getMunkakor();
+    }else{
+      s="nincs ilyen dolgozó";
+    }
+    return s;
+  }
+  
   
   private void kapcsolatNyit() {
     try {
