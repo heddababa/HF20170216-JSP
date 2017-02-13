@@ -1,6 +1,5 @@
 package lekerdez;
 
-import com.sun.xml.internal.ws.api.ha.StickyFeature;
 import java.io.File;
 import java.io.IOException;
 import java.security.MessageDigest;
