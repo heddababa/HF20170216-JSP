@@ -24,7 +24,7 @@
         <%-- csak ha session.getAttribute("jogkor")=="HR2"-vel! vagy lekerdez.getjogkor.equals("HR2") --%>
         <p><a href="ujDolgozo.jsp">Új dolgozó felvitele</a></p>
       <% } %>
-      <p><a href="fizetesModositas.jsp">Kiválasztott dolgozó fizetésének módosítása</a></p> 
+      <%-- <p><a href="fizetesModositas.jsp">Kiválasztott dolgozó fizetésének módosítása</a></p> --%>
       <hr>
       <p><a href="logout.jsp">Kijelentkezés</a></p>
     <% } %>
