@@ -8,7 +8,7 @@
     <title>Oracle HR JSP lekérdezõ</title>
   </head>  
   <body>
-    <h1>Oracle HR JSP lekérdezõ (Dolgozok adatainak lekérdezõ oldala)</h1>
+    <h1>Oracle HR JSP lekérdezõ (Dolgozók fizetéseinek módosítása)</h1>
     <hr>
     <% if(!lekerdez.isLoginOK()) { %>
       <p>Az oldal tartalma csak bejelentkezés után érhetõ el.</p>
