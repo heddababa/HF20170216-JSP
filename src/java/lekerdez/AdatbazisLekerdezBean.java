@@ -110,12 +110,47 @@ public class AdatbazisLekerdezBean implements AdatbazisKapcsolat {
   
   public String getMaxFizetes(String userId){
     
-    return "";
+    String munkakorAzonosito = getDolgozoMunkakore(userId);
+
+    int fizetes=0;
+    try {
+      kapcsolatNyit();
+      PreparedStatement ps=kapcsolat.prepareStatement(
+        "SELECT MAX_SALARY AS MAXFIZETÉS \n" +
+        "FROM JOBS\n" +
+        "WHERE JOB_TITLE=?");
+      ps.setString(1, ""+munkakorAzonosito);
+      ResultSet rs=ps.executeQuery();        
+      rs.next();
+      fizetes=rs.getInt("MAXFIZETÉS");
+    }
+    catch (SQLException e) {
+      System.out.println(e.getMessage());
+    }
+    kapcsolatZar();
+    return ""+fizetes;
   }
+
   
   public String getMinFizetes(String userId){
-    
-    return "";
+    String munkakorAzonosito = getDolgozoMunkakore(userId);    
+    int fizetes=0;
+    try {
+      kapcsolatNyit();
+      PreparedStatement ps=kapcsolat.prepareStatement(
+        "SELECT MIN_SALARY AS MINFIZETÉS \n" +
+        "FROM JOBS\n" +
+        "WHERE JOB_TITLE=?");
+      ps.setString(1, ""+munkakorAzonosito);
+      ResultSet rs=ps.executeQuery();        
+      rs.next();
+      fizetes=rs.getInt("MINFIZETÉS");
+    }
+    catch (SQLException e) {
+      System.out.println(e.getMessage());
+    }
+    kapcsolatZar();    
+    return ""+fizetes;
   }
   
   private void kapcsolatNyit() {
