@@ -50,7 +50,7 @@
         </tr>
         <tr>
           <td>Részlege</td>
-          <td><%= lekerdez.getDolgozoRszlege(request.getParameter("id"))%></td>
+          <td><%= lekerdez.getDolgozoReszlege(request.getParameter("id"))%></td>
         </tr>
         <tr>
           <td>Munkaköre</td>

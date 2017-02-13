@@ -26,8 +26,7 @@ public class AdatbazisLekerdezBean implements AdatbazisKapcsolat {
   public ArrayList<Dolgozo> dolgozok = new ArrayList<>();
   public ArrayList<Reszleg> reszlegek = new ArrayList<>();
   
-  //private File xmlFájl=new File("../web/META-INF/userek.xml"); //c:\BH01\Hf-20170216-JSP\web\META-INF\
-  private File xmlFájl=new File("userek.xml");
+  private File xmlFájl=new File("c:/BH01/Hf-20170216-JSP/web/META-INF/userek.xml");
   //private File xmlFájl=new File("./META-INF/userek.xml");
   private Connection kapcsolat;
   
@@ -77,7 +76,7 @@ public class AdatbazisLekerdezBean implements AdatbazisKapcsolat {
     return s;
   }
   
-  public String getDolgozoRszlege(String id){
+  public String getDolgozoReszlege(String id){
     int i=0;
     int id1=Integer.parseInt(id);
     String s;
