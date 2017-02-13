@@ -15,10 +15,20 @@
       <hr>
       <p><a href="login.jsp">Oracle HR JSP lekérdezõ (bejelentkezés)</a></p>
     <% } else { %>
-      <p>Dolgozók adatai</p>
-      <hr>
-      <%= lekerdez.getDolgozokAdatai() %>
-      <hr>
+    <p>Dolgozók adatai</p>
+    <form action="Dolgozok.jsp" method="POST">
+      <select name="employeeId">
+        <option value="1">Egy</option>
+        <option value="2">Kettõ</option>
+        <option value="3">Harom</option>
+        <option value="4">Négy</option>
+      </select>
+      <input type="submit" value="Kiválszt" />
+    </form>
+    <hr>
+    <p><%=request.getParameter("employeeId")%></p>
+    <%= lekerdez.getDolgozokAdatai()%>
+    <hr>
       <a href="loginOK.jsp">Vissza</a>
     <% } %>    
   </body>
