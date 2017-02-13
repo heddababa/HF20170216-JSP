@@ -19,6 +19,7 @@
     <p>Dolgozók adatai</p>
     <form action="Dolgozok.jsp" method="POST">
       <select name="reszlegId">
+        <option selected value="mindenki" >Minden dolgozó</option>
         <% for (Reszleg reszleg : lekerdez.reszlegek) {%> <!--ArrayList<Employee> employees-->
         <option value="<%= reszleg.getReszlegId()%>"><%= reszleg.getReszlegNev()%></option>
         <% }%>

@@ -107,8 +107,8 @@ public class AdatbazisLekerdezBean implements AdatbazisKapcsolat {
       Statement s = kapcsolat.createStatement();
       PreparedStatement ps = kapcsolat.prepareStatement(sql);
       
-      if (!(reszlegId==null)) {
-        ps.setInt(1, Integer.parseInt(reszlegId));
+      if (!(reszlegId==null) && !(reszlegId.equals("mindenki"))) {
+        ps.setString(1, reszlegId);
       }
       //ResultSet rs = s.executeQuery(sql);
       ResultSet rs = ps.executeQuery();
@@ -162,7 +162,7 @@ public class AdatbazisLekerdezBean implements AdatbazisKapcsolat {
   
   
   public String getDolgozokAdatai(String reszlegId) {
-    if (reszlegId == null) {
+    if ( reszlegId==null || reszlegId.equals("mindenki")) {
       return lekerdez(
               "SELECT E.EMPLOYEE_ID AS empId, "
               + "E.FIRST_NAME || ' ' || E.LAST_NAME AS Dolgozó,\n"
