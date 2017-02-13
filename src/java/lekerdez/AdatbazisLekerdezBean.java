@@ -22,7 +22,8 @@ public class AdatbazisLekerdezBean implements AdatbazisKapcsolat {
   private boolean loginOK;
   private String jogkor;
   private int hibakod;
-  private ArrayList<Dolgozo> dolgozok = new ArrayList<>();
+  public ArrayList<Dolgozo> dolgozok = new ArrayList<>();
+  public ArrayList<Reszleg> reszlegek = new ArrayList<>();
   
   //private File xmlFájl=new File("../web/META-INF/userek.xml"); //c:\BH01\Hf-20170216-JSP\web\META-INF\
   private File xmlFájl=new File("userek.xml");
@@ -33,6 +34,7 @@ public class AdatbazisLekerdezBean implements AdatbazisKapcsolat {
     loginOK=false;
     jogkor="";
     hibakod=1;
+    getReszlegek();
   }
   
   public void setLoginOK(boolean loginOK) {
@@ -102,6 +104,7 @@ public class AdatbazisLekerdezBean implements AdatbazisKapcsolat {
     try {
       kapcsolatNyit();
       Statement s = kapcsolat.createStatement();
+      Statement ps=kapcsolat.prepareStatement(sql);
       ResultSet rs = s.executeQuery(sql);
       
       táblázat=táblázatotKészít(rs); //html szoveget epit a lekerdezes eredmenyebol
@@ -153,23 +156,39 @@ public class AdatbazisLekerdezBean implements AdatbazisKapcsolat {
   
   //"<a href="employee.jsp?id=<%= employee.getId() %>"><%= employee.getSalary() %></a>"
   
-  public String getDolgozokAdatai() {
-    return lekerdez(
-      "SELECT E.EMPLOYEE_ID AS empId, "+
-      "E.FIRST_NAME || ' ' || E.LAST_NAME AS Dolgozó,\n" +
-      "D.DEPARTMENT_NAME AS Részleg,\n" +
-      "JOBS.JOB_TITLE as Munkakör,\n" +
-      "E.SALARY as Fizetés,\n" +
-      "E.HIRE_DATE as Belépési_dátum\n" +
-      "FROM JOBS, EMPLOYEES E\n" +
-      "LEFT JOIN DEPARTMENTS D\n" +
-      "ON D.DEPARTMENT_ID = E.DEPARTMENT_ID\n" +
-      "WHERE JOBS.JOB_ID=E.JOB_ID\n" +
-      "ORDER BY 1");
+  public String getDolgozokAdatai(String reszlegId) {
+    if (reszlegId == null) {
+      return lekerdez(
+              "SELECT E.EMPLOYEE_ID AS empId, "
+              + "E.FIRST_NAME || ' ' || E.LAST_NAME AS Dolgozó,\n"
+              + "D.DEPARTMENT_NAME AS Részleg,\n"
+              + "JOBS.JOB_TITLE as Munkakör,\n"
+              + "E.SALARY as Fizetés,\n"
+              + "E.HIRE_DATE as Belépési_dátum\n"
+              + "FROM JOBS, EMPLOYEES E\n"
+              + "LEFT JOIN DEPARTMENTS D\n"
+              + "ON D.DEPARTMENT_ID = E.DEPARTMENT_ID\n"
+              + "WHERE JOBS.JOB_ID=E.JOB_ID\n"
+              + "ORDER BY 1");
+
+    } else {
+      return lekerdez(
+              "SELECT E.EMPLOYEE_ID AS empId, "
+              + "E.FIRST_NAME || ' ' || E.LAST_NAME AS Dolgozó,\n"
+              + "D.DEPARTMENT_NAME AS Részleg,\n"
+              + "JOBS.JOB_TITLE as Munkakör,\n"
+              + "E.SALARY as Fizetés,\n"
+              + "E.HIRE_DATE as Belépési_dátum\n"
+              + "FROM JOBS, EMPLOYEES E\n"
+              + "LEFT JOIN DEPARTMENTS D\n"
+              + "ON D.DEPARTMENT_ID = E.DEPARTMENT_ID\n"
+              + "WHERE JOBS.JOB_ID=E.JOB_ID \n"
+              + "AND E.DEPARTMEN_ID=? \n"        
+              + "ORDER BY 1");
+    }
   }
-  
-    public ArrayList<Reszleg> lekerdezReszleg() {
-    ArrayList<Reszleg> lista = new ArrayList<>();
+
+    private void getReszlegek() {
     try {
       kapcsolatNyit();
       Statement s = kapcsolat.createStatement();
@@ -181,14 +200,13 @@ public class AdatbazisLekerdezBean implements AdatbazisKapcsolat {
               "ORDER BY 2");      
       while (rs.next()){
         Reszleg reszleg = new Reszleg(rs.getString("DEPARTMENT_NAME"), rs.getInt("DEPARTMENT_ID"));
-        lista.add(reszleg);
+        reszlegek.add(reszleg);
       }
     }
     catch (SQLException e) {
       e.printStackTrace();
     }
     kapcsolatZar();
-    return lista;
   }
 
   

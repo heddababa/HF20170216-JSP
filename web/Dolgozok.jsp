@@ -1,3 +1,4 @@
+<%@page import="lekerdez.Reszleg"%>
 <%@page import = "lekerdez.AdatbazisLekerdezBean"
    contentType="text/html" pageEncoding="ISO-8859-2" errorPage="loginHiba.jsp"%>
 <jsp:useBean id="lekerdez" class="lekerdez.AdatbazisLekerdezBean" scope="session"/>
@@ -17,17 +18,16 @@
     <% } else { %>
     <p>Dolgozók adatai</p>
     <form action="Dolgozok.jsp" method="POST">
-      <select name="employeeId">
-        <option value="1">Egy</option>
-        <option value="2">Kettõ</option>
-        <option value="3">Harom</option>
-        <option value="4">Négy</option>
+      <select name="reszlegId">
+        <% for (Reszleg reszleg : lekerdez.reszlegek) {%> <!--ArrayList<Employee> employees-->
+        <option value="<%= reszleg.getReszlegId()%>"><%= reszleg.getReszlegNev()%></option>
+        <% }%>
       </select>
-      <input type="submit" value="Kiválszt" />
+      <input type="submit" value="Részleg válsztás" />
     </form>
     <hr>
-    <p><%=request.getParameter("employeeId")%></p>
-    <%= lekerdez.getDolgozokAdatai()%>
+    <p><%=request.getParameter("reszlegId")%></p>
+    <%= lekerdez.getDolgozokAdatai(request.getParameter("reszlegId"))%>
     <hr>
       <a href="loginOK.jsp">Vissza</a>
     <% } %>    
