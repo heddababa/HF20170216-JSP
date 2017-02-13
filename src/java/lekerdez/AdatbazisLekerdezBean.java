@@ -6,6 +6,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -99,16 +100,20 @@ public class AdatbazisLekerdezBean implements AdatbazisKapcsolat {
   } 
 
   
-  private String lekerdez(String sql) {
+  private String lekerdez(String sql, String reszlegId) {
     String táblázat="";
     try {
       kapcsolatNyit();
       Statement s = kapcsolat.createStatement();
-      Statement ps=kapcsolat.prepareStatement(sql);
-      ResultSet rs = s.executeQuery(sql);
+      PreparedStatement ps = kapcsolat.prepareStatement(sql);
+      
+      if (!(reszlegId==null)) {
+        ps.setInt(1, Integer.parseInt(reszlegId));
+      }
+      //ResultSet rs = s.executeQuery(sql);
+      ResultSet rs = ps.executeQuery();
       
       táblázat=táblázatotKészít(rs); //html szoveget epit a lekerdezes eredmenyebol
-       //kapcsolat.close();
     }
     catch(Exception e) {
       táblázat="Hiba! "+e.getMessage();
@@ -154,7 +159,7 @@ public class AdatbazisLekerdezBean implements AdatbazisKapcsolat {
     return s;
   }
   
-  //"<a href="employee.jsp?id=<%= employee.getId() %>"><%= employee.getSalary() %></a>"
+  
   
   public String getDolgozokAdatai(String reszlegId) {
     if (reszlegId == null) {
@@ -169,7 +174,7 @@ public class AdatbazisLekerdezBean implements AdatbazisKapcsolat {
               + "LEFT JOIN DEPARTMENTS D\n"
               + "ON D.DEPARTMENT_ID = E.DEPARTMENT_ID\n"
               + "WHERE JOBS.JOB_ID=E.JOB_ID\n"
-              + "ORDER BY 1");
+              + "ORDER BY 2", reszlegId);
 
     } else {
       return lekerdez(
@@ -183,8 +188,8 @@ public class AdatbazisLekerdezBean implements AdatbazisKapcsolat {
               + "LEFT JOIN DEPARTMENTS D\n"
               + "ON D.DEPARTMENT_ID = E.DEPARTMENT_ID\n"
               + "WHERE JOBS.JOB_ID=E.JOB_ID \n"
-              + "AND E.DEPARTMEN_ID=? \n"        
-              + "ORDER BY 1");
+              + "AND E.DEPARTMENT_ID=? \n"        
+              + "ORDER BY 2", reszlegId);
     }
   }
 
