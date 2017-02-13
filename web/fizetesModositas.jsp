@@ -1,4 +1,5 @@
 <%@page contentType="text/html" pageEncoding="ISO-8859-2"%>
+<jsp:useBean id="lekerdez" class="lekerdez.AdatbazisLekerdezBean" scope="session"/>
 <!DOCTYPE html>
 <html>
   <head>
@@ -21,7 +22,9 @@
       <hr>
       <p>
         Ezt a dolgozót választottam ki: 
-        <%= request.getParameter("id") %>
+        ID = <%= request.getParameter("id") %>
+        Neve = <%= lekerdez.getDolgozoNeve(request.getParameter("id"))%>
+        
       </p> 
       
       <hr>
