@@ -1,0 +1,28 @@
+<%@page contentType="text/html" pageEncoding="ISO-8859-2"%>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-2">
+    <title>Oracle HR JSP kezelő</title>
+  </head>
+  
+  <body>
+    <% if(session.getAttribute("felhasznalonev")==null) { %>
+      <h1>Oracle HR JSP kezelő (sikeres bejelentkezési oldal)</h1>
+      <hr>
+      <p>Az oldal tartalma csak bejelentkezés után érhető el.</p>
+      <hr>
+      <p><a href="login.jsp">Vissza a bejelentkezéshez</a></p>
+    <% } else { %>
+      <h1>Oracle HR JSP kezelő 
+        (bejelentkezve: <%= session.getAttribute("felhasznalonev") %>)</h1> <%--TODO Jogkort kiiratni--%>
+      <hr>
+      <p><a href="Dolgozok.jsp">Dolgozók adatai</a></p>
+      <%-- csak ha session.getAttribute("jogkor")=="HR2"-vel! vagy lekerdez.getjogkor.equals("HR2") --%>
+   <%--TODO   <p><a href="ujDolgozoFelvetele.jsp">Dolgozók átlagfizetése</a></p> --%>
+   <%--TODO   <p><a href="fizetesModositas.jsp">Dolgozók átlagfizetése</a></p> --%>   
+      <hr>
+      <p><a href="logout.jsp">Kijelentkezés</a></p>
+    <% } %>
+  </body>
+</html>
