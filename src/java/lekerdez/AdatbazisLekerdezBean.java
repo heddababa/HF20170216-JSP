@@ -401,6 +401,5 @@ public class AdatbazisLekerdezBean implements AdatbazisKapcsolat {
     }
     return msg;
   }  
-
   
 }
