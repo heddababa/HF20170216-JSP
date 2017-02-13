@@ -8,7 +8,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
@@ -20,10 +22,12 @@ public class AdatbazisLekerdezBean implements AdatbazisKapcsolat {
   private boolean loginOK;
   private String jogkor;
   private int hibakod;
+  private ArrayList<Dolgozo> dolgozok = new ArrayList<>();
   
   //private File xmlFájl=new File("../web/META-INF/userek.xml"); //c:\BH01\Hf-20170216-JSP\web\META-INF\
   private File xmlFájl=new File("userek.xml");
   //private File xmlFájl=new File("./META-INF/userek.xml");
+  private Connection kapcsolat;
   
   public AdatbazisLekerdezBean() {
     loginOK=false;
@@ -55,20 +59,58 @@ public class AdatbazisLekerdezBean implements AdatbazisKapcsolat {
     return hibakod;
   }
   
+  public String getDolgozoNeve(String id){
+    int i=0;
+    int id1=Integer.parseInt(id);
+    String s;
+    while (!(dolgozok.get(i).getEmpID()==id1)) {      
+      i++;
+    }
+    if (i<dolgozok.size()) {
+      s=dolgozok.get(i).getNev()+" "+dolgozok.get(i).getReszlegNev()+" "+dolgozok.get(i).getMunkakor();
+    }else{
+      s="nincs ilyen dolgozó";
+    }
+    return s;
+  }
+  
+  private void kapcsolatNyit() {
+    try {
+      Class.forName(DRIVER);
+      kapcsolat = DriverManager.getConnection(URL, USER, PASSWORD);
+    }
+    catch (ClassNotFoundException e) {
+      System.out.println("Hiba! Hiányzik a JDBC driver.");
+    }
+    catch (SQLException e) {
+      System.out.println("Hiba! Nem sikerült megnyitni a kapcsolatot az adatbázis-szerverrel.");
+    }
+  }
+
+  private void kapcsolatZar() {
+    try {
+      kapcsolat.close();
+    }
+    catch (SQLException e) {
+      System.out.println("Hiba! Nem sikerült lezárni a kapcsolatot az adatbázis-szerverrel.");
+    }
+  } 
+
+  
   private String lekerdez(String sql) {
     String táblázat="";
     try {
-      Class.forName(DRIVER);
-      Connection kapcsolat=DriverManager.getConnection(URL, USER, PASSWORD);
+      kapcsolatNyit();
       Statement s = kapcsolat.createStatement();
       ResultSet rs = s.executeQuery(sql);
       
       táblázat=táblázatotKészít(rs); //html szoveget epit a lekerdezes eredmenyebol
-      kapcsolat.close();
+       //kapcsolat.close();
     }
     catch(Exception e) {
       táblázat="Hiba! "+e.getMessage();
     }
+    kapcsolatZar();
     return táblázat;
   }
   
@@ -89,6 +131,7 @@ public class AdatbazisLekerdezBean implements AdatbazisKapcsolat {
                 rs.getString("Munkakör"),
                 rs.getInt("Fizetés"),
                 rs.getDate("Belépési_dátum"));
+        dolgozok.add(dolgozo);
 
         s += "<tr>";
         for (int i = 1; i < metaadat.getColumnCount(); i++) {
@@ -124,6 +167,30 @@ public class AdatbazisLekerdezBean implements AdatbazisKapcsolat {
       "WHERE JOBS.JOB_ID=E.JOB_ID\n" +
       "ORDER BY 1");
   }
+  
+    public ArrayList<Reszleg> lekerdezReszleg() {
+    ArrayList<Reszleg> lista = new ArrayList<>();
+    try {
+      kapcsolatNyit();
+      Statement s = kapcsolat.createStatement();
+      ResultSet rs = s.executeQuery(
+              "SELECT DEPARTMENT_ID, DEPARTMENT_NAME\n" +
+              "FROM DEPARTMENTS\n" +
+              "WHERE DEPARTMENT_ID IN \n" +
+              "(SELECT DISTINCT DEPARTMENT_ID FROM EMPLOYEES)\n" +
+              "ORDER BY 2");      
+      while (rs.next()){
+        Reszleg reszleg = new Reszleg(rs.getString("DEPARTMENT_NAME"), rs.getInt("DEPARTMENT_ID"));
+        lista.add(reszleg);
+      }
+    }
+    catch (SQLException e) {
+      e.printStackTrace();
+    }
+    kapcsolatZar();
+    return lista;
+  }
+
   
 /*
   public String getDolgozokNeveReszlege() {
@@ -236,5 +303,6 @@ public class AdatbazisLekerdezBean implements AdatbazisKapcsolat {
     }
     return msg;
   }  
+
   
 }
