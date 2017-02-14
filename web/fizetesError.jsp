@@ -14,6 +14,6 @@
       vagy megegyezik az eredeti fizetéssel!<br>
     </p>
     <hr>
-    <a href="index.jsp">Vissza a fiztés módosításhoz</a>    
+    <a href="fizetesModositas.jsp">Vissza a fiztés módosításhoz</a>    
   </body>
 </html>
