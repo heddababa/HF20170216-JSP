@@ -12,9 +12,8 @@
     <% int ujFizetes = Integer.parseInt(request.getParameter("fizetes")); 
        int minFiz = (Integer)session.getAttribute("minFizEll");
        int maxFiz = (Integer)session.getAttribute("maxFizEll");
+       int aktFfizetes= (Integer)session.getAttribute("aktFizEll");
        String id = (String)session.getAttribute("id");
-       int aktFfizetes= lekerdez.getDolgozoFizetese(id);
-       
     %> 
     <h1>Oracle HR JSP kezelõ (Fizetés ellenõrzés oldal)</h1>
     <h1>Ezt kéne ellenõrizni, hogy jó-e :  <%= ujFizetes %></h1>
