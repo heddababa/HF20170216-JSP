@@ -9,17 +9,19 @@
     <title>Oracle HR JSP kezelõ</title>
   </head>
   <body>
-    <% int fizetes = Integer.parseInt(request.getParameter("fizetes")); 
+    <% int ujFizetes = Integer.parseInt(request.getParameter("fizetes")); 
        int minFiz = (Integer)session.getAttribute("minFizEll");
        int maxFiz = (Integer)session.getAttribute("maxFizEll");
        String id = (String)session.getAttribute("id");
+       int aktFfizetes= lekerdez.getDolgozoFizetese(id);
+       
     %> 
     <h1>Oracle HR JSP kezelõ (Fizetés ellenõrzés oldal)</h1>
-    <h1>Ezt kéne ellenõrizni, hogy jó-e :  <%= fizetes %></h1>
+    <h1>Ezt kéne ellenõrizni, hogy jó-e :  <%= ujFizetes %></h1>
     <h1>Dolgzó azonositó = <%= id %></h1>
     <p>Minimum fizetés = <%= minFiz%></p>
     <p>Maximum fizetés = <%= maxFiz%></p>
-    <% if (fizetes < minFiz || fizetes > maxFiz) {
+    <% if (ujFizetes < minFiz || ujFizetes > maxFiz || ujFizetes==aktFfizetes ) {
         response.sendRedirect("fizetesError.jsp");
       } else {%>
     <p>Fizetés rendbne lehet menteni, mentés</p>
@@ -27,10 +29,10 @@
     <%
       boolean ok=false;
         if (ok) {
-           response.sendRedirect("loginOK.jsp");
+           response.sendRedirect("fizetesMenteSiker.jsp");
         }
         else{
-          response.sendRedirect("mentesHiba.jsp");
+          response.sendRedirect("fizetesMentesHiba.jsp");
         }
       }
     %>
