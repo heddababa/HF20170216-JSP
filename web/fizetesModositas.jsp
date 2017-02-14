@@ -39,14 +39,15 @@
       <p> A jogköröd: <%= lekerdez.getJogkor()%> </p>
       <hr>
       Ezt a dolgozót választottam ki:<br> 
-      <% int minFiz=lekerdez.getMinFizetes(request.getParameter("id"));
-         int maxFiz=lekerdez.getMaxFizetes(request.getParameter("id"));
-         int aktFizetes = lekerdez.getDolgozoFizetese("id");
+      <% String id = request.getParameter("id"); 
+         int minFiz=lekerdez.getMinFizetes(id);
+         int maxFiz=lekerdez.getMaxFizetes(id);
+         int aktFizetes = lekerdez.getDolgozoFizetese(id);
          int emeles5szazalek = Math.round(aktFizetes*1.05F);
          int csokkentes5szazalek =  Math.round(aktFizetes*0.95F);
          int adhatoMax = maxFiz>emeles5szazalek?emeles5szazalek:maxFiz;
          int adhatoMin = minFiz<csokkentes5szazalek?csokkentes5szazalek:minFiz;
-         String id = request.getParameter("id");
+         
          session.setAttribute("minFizEll", adhatoMin);
          session.setAttribute("maxFizEll", adhatoMin);
          session.setAttribute("aktFizEll", aktFizetes);

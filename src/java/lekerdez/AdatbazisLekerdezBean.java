@@ -123,9 +123,9 @@ public class AdatbazisLekerdezBean implements AdatbazisKapcsolat {
     return s;
   }
   
-  public int getMaxFizetes(String munkakorID){
+  public int getMaxFizetes(String dolgozoId){
     
-    String munkakorAzonosito = getDolgozoMunkakore(munkakorID);
+    String munkakorAzonosito = getDolgozoMunkakore(dolgozoId);
 
     int fizetes=0;
     try {
@@ -147,8 +147,8 @@ public class AdatbazisLekerdezBean implements AdatbazisKapcsolat {
   }
 
   
-  public int getMinFizetes(String munkakorId){
-    String munkakorAzonosito = getDolgozoMunkakore(munkakorId);    
+  public int getMinFizetes(String dolgozoId){
+    String munkakorAzonosito = getDolgozoMunkakore(dolgozoId);    
     int fizetes=0;
     try {
       kapcsolatNyit();
