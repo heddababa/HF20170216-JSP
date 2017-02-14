@@ -1,0 +1,77 @@
+<%@page contentType="text/html" pageEncoding="ISO-8859-2"%>
+<jsp:useBean id="lekerdez" class="lekerdez.AdatbazisLekerdezBean" scope="session"/>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-2">
+    <title>Oracle HR JSP kezelő</title>
+  </head>
+  <style>
+    table {
+      font-family: arial, sans-serif;
+      border-collapse: collapse;
+      width: 25%;
+    }
+
+    td, th {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+    }
+
+    tr:nth-child(even) {
+      background-color: #dddddd;
+    }
+  </style>  
+  <body>
+    <% if(session.getAttribute("felhasznalonev")==null) { %>
+      <h1>Oracle HR JSP kezelő (Fizetés módosítás oldal)</h1>
+      <hr>
+      <p>Az oldal tartalma csak bejelentkezés után érhető el.</p>
+      <hr>
+      <p><a href="loginOK.jsp">Vissza a "foablakra"</a></p>
+    <% } else { %>
+      <h1>Oracle HR JSP kezelő 
+        (bejelentkezve: <%= session.getAttribute("felhasznalonev")%>)
+        <br>
+        Fizetés módosítás
+      </h1> <%--TODO Jogkort kiiratni--%>
+      <p> A jogköröd: <%= lekerdez.getJogkor()%> </p>
+      <hr>
+      Ezt a dolgozót választottam ki:<br> 
+      <table>
+        <tr>
+          <td>A dolgózó azonosítója</td>
+          <td><%= request.getParameter("id")%></td>
+        </tr>
+        <tr>
+          <td>A dolgózó neve</td>
+          <td><%= lekerdez.getDolgozoNeve(request.getParameter("id"))%></td>
+        </tr>
+        <tr>
+          <td>Részlege</td>
+          <td><%= lekerdez.getDolgozoReszlege(request.getParameter("id"))%></td>
+        </tr>
+        <tr>
+          <td>Munkaköre</td>
+          <td><%= lekerdez.getDolgozoMunkakore(request.getParameter("id"))%></td>
+        </tr>
+        <tr>
+          <td>Adható maximális fizetés:</td>
+          <td><%= lekerdez.getMaxFizetes(request.getParameter("id")) %></td>
+        </tr>
+        <tr>
+          <td>Adható minimális fizetés: </td>
+          <td><%= lekerdez.getMinFizetes(request.getParameter("id"))%></td>
+        </tr>
+      </table>
+        <br><br>
+        <form action="fizetesEllenorzes.jsp" method="post">
+          Új fizetés:<input type="text" name="fizetes"><br>
+          <input type="submit" value="Mehet">
+        </form>
+        <hr>
+        <% } %>
+        <!--<p><a href="loginOK.jsp">Foablakra (Igazabol ellenorzes kell mentes utan)</a></p>-->
+  </body>
+</html>
