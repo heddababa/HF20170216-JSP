@@ -253,6 +253,7 @@ public class AdatbazisLekerdezBean implements AdatbazisKapcsolat {
   
   
   public String getDolgozokAdatai(String reszlegId) {
+    dolgozok.clear();
     if ( reszlegId==null || reszlegId.equals("mindenki")) {
       return lekerdez(
               "SELECT E.EMPLOYEE_ID AS empId, "
