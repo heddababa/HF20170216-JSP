@@ -62,9 +62,9 @@ public class AdatbazisLekerdezBean implements AdatbazisKapcsolat {
     return hibakod;
   }
   
-  public String getDolgozoNeve(String id){
+  public String getDolgozoNeve(String dolgozoId){
     int i=0;
-    int id1=Integer.parseInt(id);
+    int id1=Integer.parseInt(dolgozoId);
     String s;
     while (!(dolgozok.get(i).getEmpID()==id1)) {      
       i++;
@@ -77,9 +77,25 @@ public class AdatbazisLekerdezBean implements AdatbazisKapcsolat {
     return s;
   }
   
-  public String getDolgozoRszlege(String id){
+  public int getDolgozoFizetese(String dolgozoId){
     int i=0;
-    int id1=Integer.parseInt(id);
+    int id1=Integer.parseInt(dolgozoId);
+    int fiz;
+    while (!(dolgozok.get(i).getEmpID()==id1)) {      
+      i++;
+    }
+    if (i<dolgozok.size()) {
+      fiz=dolgozok.get(i).getFizetes();
+    }else{
+      fiz=0;
+    }
+    return fiz;
+  }
+  
+  
+  public String getDolgozoRszlege(String dogozoId){
+    int i=0;
+    int id1=Integer.parseInt(dogozoId);
     String s;
     while (!(dolgozok.get(i).getEmpID()==id1)) {      
       i++;
@@ -92,9 +108,9 @@ public class AdatbazisLekerdezBean implements AdatbazisKapcsolat {
     return s;
   }
 
-  public String getDolgozoMunkakore(String id){
+  public String getDolgozoMunkakore(String dolgozoId){
     int i=0;
-    int id1=Integer.parseInt(id);
+    int id1=Integer.parseInt(dolgozoId);
     String s;
     while (!(dolgozok.get(i).getEmpID()==id1)) {      
       i++;
@@ -107,9 +123,9 @@ public class AdatbazisLekerdezBean implements AdatbazisKapcsolat {
     return s;
   }
   
-  public int getMaxFizetes(String userId){
+  public int getMaxFizetes(String munkakorID){
     
-    String munkakorAzonosito = getDolgozoMunkakore(userId);
+    String munkakorAzonosito = getDolgozoMunkakore(munkakorID);
 
     int fizetes=0;
     try {
@@ -131,8 +147,8 @@ public class AdatbazisLekerdezBean implements AdatbazisKapcsolat {
   }
 
   
-  public int getMinFizetes(String userId){
-    String munkakorAzonosito = getDolgozoMunkakore(userId);    
+  public int getMinFizetes(String munkakorId){
+    String munkakorAzonosito = getDolgozoMunkakore(munkakorId);    
     int fizetes=0;
     try {
       kapcsolatNyit();

@@ -27,9 +27,9 @@
     <p>Fizetés rendbne lehet menteni, mentés</p>
 <!--    boolean ok = lekerdez.modositFizetés(Integer.parseInt(id), fizetes);-->
     <%
-      boolean ok=false;
+      boolean ok=true;
         if (ok) {
-           response.sendRedirect("fizetesMenteSiker.jsp");
+           response.sendRedirect("fizetesMentesSiker.jsp");
         }
         else{
           response.sendRedirect("fizetesMentesHiba.jsp");
