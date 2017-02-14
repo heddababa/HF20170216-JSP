@@ -49,7 +49,7 @@
          int adhatoMin = minFiz<csokkentes5szazalek?csokkentes5szazalek:minFiz;
          
          session.setAttribute("minFizEll", adhatoMin);
-         session.setAttribute("maxFizEll", adhatoMin);
+         session.setAttribute("maxFizEll", adhatoMax);
          session.setAttribute("aktFizEll", aktFizetes);
          session.setAttribute("id", id);
       %>
