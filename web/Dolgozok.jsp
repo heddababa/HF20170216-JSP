@@ -10,11 +10,14 @@
   </head>  
   <body>
     <h1>Oracle HR JSP lekérdezõ (Dolgozók listája fizetésekkel)</h1>
+        <hr>
+      <a href="loginOK.jsp">Vissza</a>
+
     <hr>
     <% if(!lekerdez.isLoginOK()) { %>
       <p>Az oldal tartalma csak bejelentkezés után érhetõ el.</p>
       <hr>
-      <p><a href="login.jsp">Oracle HR JSP lekérdezõ (bejelentkezés)</a></p>
+      <p><a href="index.jsp">Oracle HR JSP lekérdezõ (bejelentkezés)</a></p>
     <% } else { %>
     <p>Dolgozók adatai</p>
     <form action="Dolgozok.jsp" method="POST">
@@ -28,8 +31,6 @@
     </form>
     <hr>
     <%= lekerdez.getDolgozokAdatai(request.getParameter("reszlegId"))%>
-    <hr>
-      <a href="loginOK.jsp">Vissza</a>
     <% } %>    
   </body>
 </html>
