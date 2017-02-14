@@ -75,7 +75,6 @@
           <td><%= aktFizetes %></td>
         </tr>
         <tr>
-        <tr>
           <td>Adható maximális fizetés:</td>
           <td><%= adhatoMax %></td>
         </tr>
