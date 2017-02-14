@@ -7,8 +7,8 @@
     <title>Oracle HR JSP kezelõ</title>
   </head>
   <body>
-    <h1>Oracle HR JSP kezelõ (Fizetés mentés hiba oldal)</h1>
-    <h1>Az új fizetés elmentése nem sikerült</h1>
+    <h1>Oracle HR JSP kezelõ (Fizetés mentés siker oldal)</h1>
+    <h1>Az új fizetés elmentése sikerült !!</h1>
     <form action="loginOK.jsp" method="post">
     <button name="id" type="submit" value="" >OK</button>
     </form>

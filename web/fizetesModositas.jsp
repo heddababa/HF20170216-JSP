@@ -41,6 +41,7 @@
       Ezt a dolgozót választottam ki:<br> 
       <% int minFiz=lekerdez.getMinFizetes(request.getParameter("id"));
          int maxFiz=lekerdez.getMaxFizetes(request.getParameter("id"));
+         int aktFizetes = lekerdez.getDolgozoFizetese("id");
          String id = request.getParameter("id");
          session.setAttribute("minFizEll", minFiz);
          session.setAttribute("maxFizEll", maxFiz);
