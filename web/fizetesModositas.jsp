@@ -41,13 +41,15 @@
       Ezt a dolgozót választottam ki:<br> 
       <% int minFiz=lekerdez.getMinFizetes(request.getParameter("id"));
          int maxFiz=lekerdez.getMaxFizetes(request.getParameter("id"));
+         String id = request.getParameter("id");
          session.setAttribute("minFizEll", minFiz);
          session.setAttribute("maxFizEll", maxFiz);
+         session.setAttribute("id", id);
       %>
       <table>
         <tr>
           <td>A dolgózó azonosítója</td>
-          <td><%= request.getParameter("id")%></td>
+          <td><%= id%></td>
         </tr>
         <tr>
           <td>A dolgózó neve</td>

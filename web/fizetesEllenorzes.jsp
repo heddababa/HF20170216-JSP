@@ -11,10 +11,11 @@
     <% int fizetes = Integer.parseInt(request.getParameter("fizetes")); 
        int minFiz = (Integer)session.getAttribute("minFizEll");
        int maxFiz = (Integer)session.getAttribute("maxFizEll");
+       String id = (String)session.getAttribute("id");
     %> 
-    <h1>Oracle HR JSP kezelõ (Fizetés ellenõrzés oldal</h1>
+    <h1>Oracle HR JSP kezelõ (Fizetés ellenõrzés oldal)</h1>
     <h1>Ezt kéne ellenõrizni, hogy jó-e :  <%= fizetes %></h1>
-    
+    <h1>Dolgzó azonositó = <%= id %></h1>
     <p>Minimum fizetés = <%= minFiz %></p>
     <p>Maximum fizetés = <%= maxFiz %></p>
     <% if(fizetes<minFiz || fizetes>maxFiz){

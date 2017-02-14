@@ -14,6 +14,11 @@
       vagy megegyezik az eredeti fizetéssel!<br>
     </p>
     <hr>
-    <a href="fizetesModositas.jsp">Vissza a fiztés módosításhoz</a>    
+    <% String id = (String)session.getAttribute("id"); 
+    %>
+    <form action="fizetesModositas.jsp" method="post">
+    <button name="id" type="submit" value=<%= id %> >OK</button>
+    </form>
+    <!--<a href="fizetesModositas.jsp">Vissza a fiztés módosításhoz</a>    -->
   </body>
 </html>
