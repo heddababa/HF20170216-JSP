@@ -22,7 +22,7 @@
       response.sendRedirect("fizetesError.jsp");
     }else{%>
     <p>Fizetés rendbne lehet menteni, mentés</p>
-    <%}
+    <% lekerdez.}
     %>
   </body>
 </html>
