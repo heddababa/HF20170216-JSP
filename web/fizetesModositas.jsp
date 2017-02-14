@@ -71,6 +71,11 @@
           <td><%= lekerdez.getDolgozoMunkakore(request.getParameter("id"))%></td>
         </tr>
         <tr>
+          <td>Aktuális fizetés:</td>
+          <td><%= aktFizetes %></td>
+        </tr>
+        <tr>
+        <tr>
           <td>Adható maximális fizetés:</td>
           <td><%= adhatoMax %></td>
         </tr>
