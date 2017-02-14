@@ -1,6 +1,7 @@
 
-
-<%@page contentType="text/html" pageEncoding="ISO-8859-2"%>
+<%@page import = "lekerdez.AdatbazisLekerdezBean" 
+        contentType="text/html" pageEncoding="ISO-8859-2" errorPage="loginHiba.jsp"%>
+<jsp:useBean id="lekerdez" class="lekerdez.AdatbazisLekerdezBean" scope="session"/>
 <!DOCTYPE html>
 <html>
   <head>
@@ -16,13 +17,22 @@
     <h1>Oracle HR JSP kezelõ (Fizetés ellenõrzés oldal)</h1>
     <h1>Ezt kéne ellenõrizni, hogy jó-e :  <%= fizetes %></h1>
     <h1>Dolgzó azonositó = <%= id %></h1>
-    <p>Minimum fizetés = <%= minFiz %></p>
-    <p>Maximum fizetés = <%= maxFiz %></p>
-    <% if(fizetes<minFiz || fizetes>maxFiz){
-      response.sendRedirect("fizetesError.jsp");
-    }else{%>
+    <p>Minimum fizetés = <%= minFiz%></p>
+    <p>Maximum fizetés = <%= maxFiz%></p>
+    <% if (fizetes < minFiz || fizetes > maxFiz) {
+        response.sendRedirect("fizetesError.jsp");
+      } else {%>
     <p>Fizetés rendbne lehet menteni, mentés</p>
-    <% lekerdez.}
+<!--    boolean ok = lekerdez.modositFizetés(Integer.parseInt(id), fizetes);-->
+    <%
+      boolean ok=false;
+        if (ok) {
+           response.sendRedirect("loginOK.jsp");
+        }
+        else{
+          response.sendRedirect("mentesHiba.jsp");
+        }
+      }
     %>
   </body>
 </html>
