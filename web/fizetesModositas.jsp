@@ -42,9 +42,14 @@
       <% int minFiz=lekerdez.getMinFizetes(request.getParameter("id"));
          int maxFiz=lekerdez.getMaxFizetes(request.getParameter("id"));
          int aktFizetes = lekerdez.getDolgozoFizetese("id");
+         int emeles5szazalek = Math.round(aktFizetes*1.05F);
+         int csokkentes5szazalek =  Math.round(aktFizetes*0.95F);
+         int adhatoMax = maxFiz>emeles5szazalek?emeles5szazalek:maxFiz;
+         int adhatoMin = minFiz<csokkentes5szazalek?csokkentes5szazalek:minFiz;
          String id = request.getParameter("id");
-         session.setAttribute("minFizEll", minFiz);
-         session.setAttribute("maxFizEll", maxFiz);
+         session.setAttribute("minFizEll", adhatoMin);
+         session.setAttribute("maxFizEll", adhatoMin);
+         session.setAttribute("aktFizEll", aktFizetes);
          session.setAttribute("id", id);
       %>
       <table>
@@ -66,11 +71,11 @@
         </tr>
         <tr>
           <td>Adható maximális fizetés:</td>
-          <td><%= lekerdez.getMaxFizetes(request.getParameter("id")) %></td>
+          <td><%= adhatoMax %></td>
         </tr>
         <tr>
           <td>Adható minimális fizetés: </td>
-          <td><%= lekerdez.getMinFizetes(request.getParameter("id"))%></td>
+          <td><%= adhatoMin %></td>
         </tr>
       </table>
         <br><br>
