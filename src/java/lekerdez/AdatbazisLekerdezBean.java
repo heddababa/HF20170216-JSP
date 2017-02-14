@@ -289,7 +289,50 @@ public class AdatbazisLekerdezBean implements AdatbazisKapcsolat {
     kapcsolatZar();
   }
 
-  
+  public boolean modositFizetés(int dolgozoID, int ujFizetes) {
+    PreparedStatement ps = null;
+    boolean ok = false;
+    String fizetesModositoSQL
+            = "UPDATE EMPLOYEES \n"
+            + "SET SALARY=? \n"
+            + "WHERE EMPLOYEE_ID=? ";
+
+    kapcsolatNyit();
+    try {
+      kapcsolat.setAutoCommit(false);
+      ps = kapcsolat.prepareStatement(fizetesModositoSQL);
+      ps.setString(1, "" + ujFizetes);
+      ps.setDouble(2, dolgozoID);
+      ps.executeUpdate();
+      kapcsolat.commit();
+      ok = true;
+    } catch (SQLException e) {
+      System.out.println(e.getMessage());
+      //JDBCTutorialUtilities.printSQLException(e);
+      if (kapcsolat != null) {
+        try {
+          System.err.print("A tranzakció visszagörgetésre kerül!");
+          kapcsolat.rollback();
+        } catch (SQLException excep) {
+          System.out.println(e.getMessage());
+          //JDBCTutorialUtilities.printSQLException(excep);
+        }
+      }
+    } finally {
+      try {
+        if (ps != null) {
+          ps.close();
+        }
+        kapcsolat.setAutoCommit(true);
+      } catch (SQLException sQLException) {
+        sQLException.printStackTrace();
+      }
+    }
+    kapcsolatZar();
+    return ok;
+  }
+
+    
 /*
   public String getDolgozokNeveReszlege() {
     return lekerdez(
