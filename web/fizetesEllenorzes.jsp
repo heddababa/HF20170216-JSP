@@ -8,8 +8,19 @@
     <title>JSP Page</title>
   </head>
   <body>
-    <h1>Ezt kéne ellenõrizni, hogy jó-e :  <%= request.getParameter("fizetes") %></h1>
-    <p>Minimum fizetés = <%= session.getAttribute("minFizEll") %></p>
-    <p>Maximum fizetés = <%= session.getAttribute("maxFizEll") %></p>
+    <% int fizetes = Integer.parseInt(request.getParameter("fizetes")); 
+       int minFiz = (Integer)session.getAttribute("minFizEll");
+       int maxFiz = (Integer)session.getAttribute("maxFizEll");
+    %> 
+    <h1>Ezt kéne ellenõrizni, hogy jó-e :  <%= fizetes %></h1>
+    
+    <p>Minimum fizetés = <%= minFiz %></p>
+    <p>Maximum fizetés = <%= maxFiz %></p>
+    <% if(fizetes<minFiz || fizetes>maxFiz){
+      response.sendRedirect("fizetesError.jsp");
+    }else{%>
+    <p>Fizetés rendbne lehet menteni</p>
+    <%}
+    %>
   </body>
 </html>
