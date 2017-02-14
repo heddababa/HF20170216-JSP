@@ -25,8 +25,9 @@ public class AdatbazisLekerdezBean implements AdatbazisKapcsolat {
   private int hibakod;
   public ArrayList<Dolgozo> dolgozok = new ArrayList<>();
   public ArrayList<Reszleg> reszlegek = new ArrayList<>();
+  public ArrayList<AtlagFiz> atlagfiz = new ArrayList<>();
   
-  private File xmlFájl=new File("c:/BH01/Hf-20170216-JSP/web/META-INF/userek.xml");
+  private File xmlFájl=new File("C:/Users/212546118/Downloads/BH01/BH01SCRUM2/HF20170216-JSP/web/META-INF/userek.xml");
   //private File xmlFájl=new File("./META-INF/userek.xml");
   private Connection kapcsolat;
   
@@ -287,8 +288,28 @@ public class AdatbazisLekerdezBean implements AdatbazisKapcsolat {
     }
     kapcsolatZar();
   }
+    
+    private void getAtlagFiz() {
+    try {
+      kapcsolatNyit();
+      Statement s = kapcsolat.createStatement();
+      ResultSet rs = s.executeQuery(
+              "SELECT D.DEPARTMENT_NAME AS Részleg, ROUND(SUM(SALARY)/COUNT(E.EMPLOYEE_ID)) AS ÁtlagFiz\n" +
+              "FROM DEPARTMENTS D, EMPLOYEES E\n" +
+              "WHERE E.DEPARTMENT_ID=D.DEPARTMENT_ID\n" +
+              "GROUP BY D.DEPARTMENT_NAME\n" +
+              "ORDER BY ÁtlagFiz DESC");      
+      while (rs.next()){
+        AtlagFiz atlagfiz = new AtlagFiz(rs.getString("Részleg"), rs.getInt("ÁtlagFiz"));
+        this.atlagfiz.add(atlagfiz);
+      }
+    }
+    catch (SQLException e) {
+      e.printStackTrace();
+    }
+    kapcsolatZar();
+  }
 
-  
 /*
   public String getDolgozokNeveReszlege() {
     return lekerdez(
