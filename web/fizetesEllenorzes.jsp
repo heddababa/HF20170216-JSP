@@ -21,12 +21,11 @@
     <p>Minimum fizetés = <%= minFiz%></p>
     <p>Maximum fizetés = <%= maxFiz%></p>
     <% if (ujFizetes < minFiz || ujFizetes > maxFiz || ujFizetes==aktFfizetes ) {
-        response.sendRedirect("fizetesError.jsp");
+        response.sendRedirect("fizetesHiba.jsp");
       } else {%>
     <p>Fizetés rendbne lehet menteni, mentés</p>
-<!--    boolean ok = lekerdez.modositFizetés(Integer.parseInt(id), fizetes);-->
-    <%
-      boolean ok=true;
+    <% boolean ok = lekerdez.modositFizetés(Integer.parseInt(id), ujFizetes);
+
         if (ok) {
            response.sendRedirect("fizetesMentesSiker.jsp");
         }
