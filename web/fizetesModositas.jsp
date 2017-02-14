@@ -81,7 +81,7 @@
       </table>
         <br><br>
         <form action="fizetesEllenorzes.jsp" method="post">
-          Új fizetés:<input type="number" name="fizetes" max=<%= adhatoMax %> min=<%= adhatoMin %> ><br>
+          Új fizetés:<input type="number" name="fizetes" max=<%= adhatoMax %> min=<%= adhatoMin %> required><br>
           <input type="submit" value="Mehet">
         </form>
         <hr>
