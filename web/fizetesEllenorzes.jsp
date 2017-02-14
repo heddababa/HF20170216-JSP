@@ -9,5 +9,7 @@
   </head>
   <body>
     <h1>Ezt kéne ellenõrizni, hogy jó-e :  <%= request.getParameter("fizetes") %></h1>
+    <p>Minimum fizetés = <%= session.getAttribute("minFizEll") %></p>
+    <p>Maximum fizetés = <%= session.getAttribute("maxFizEll") %></p>
   </body>
 </html>
