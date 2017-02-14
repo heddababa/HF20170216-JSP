@@ -39,6 +39,7 @@
       <p> A jogköröd: <%= lekerdez.getJogkor()%> </p>
       <hr>
       Ezt a dolgozót választottam ki:<br> 
+      <% String %>
       <table>
         <tr>
           <td>A dolgózó azonosítója</td>
