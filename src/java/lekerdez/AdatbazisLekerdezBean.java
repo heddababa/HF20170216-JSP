@@ -289,27 +289,53 @@ public class AdatbazisLekerdezBean implements AdatbazisKapcsolat {
     kapcsolatZar();
   }
     
-    private void getAtlagFiz() {
-    try {
-      kapcsolatNyit();
-      Statement s = kapcsolat.createStatement();
-      ResultSet rs = s.executeQuery(
+//    private void getAtlagFiz() {
+//    try {
+//      kapcsolatNyit();
+//      Statement s = kapcsolat.createStatement();
+//      ResultSet rs = s.executeQuery(
+//              "SELECT D.DEPARTMENT_NAME AS Részleg, ROUND(SUM(SALARY)/COUNT(E.EMPLOYEE_ID)) AS ÁtlagFiz\n" +
+//              "FROM DEPARTMENTS D, EMPLOYEES E\n" +
+//              "WHERE E.DEPARTMENT_ID=D.DEPARTMENT_ID\n" +
+//              "GROUP BY D.DEPARTMENT_NAME\n" +
+//              "ORDER BY ÁtlagFiz DESC");      
+//      while (rs.next()){
+//        AtlagFiz atlagfiz = new AtlagFiz(rs.getString("Részleg"), rs.getInt("ÁtlagFiz"));
+//        this.atlagfiz.add(atlagfiz);
+//      }
+//    }
+//    catch (SQLException e) {
+//      e.printStackTrace();
+//    }
+//    kapcsolatZar();
+//  }
+    
+    public String getAtlagFizu() throws SQLException {
+    kapcsolatNyit();
+    Statement s = kapcsolat.createStatement();
+    ResultSet rs=s.executeQuery(
               "SELECT D.DEPARTMENT_NAME AS Részleg, ROUND(SUM(SALARY)/COUNT(E.EMPLOYEE_ID)) AS ÁtlagFiz\n" +
               "FROM DEPARTMENTS D, EMPLOYEES E\n" +
               "WHERE E.DEPARTMENT_ID=D.DEPARTMENT_ID\n" +
               "GROUP BY D.DEPARTMENT_NAME\n" +
-              "ORDER BY ÁtlagFiz DESC");      
-      while (rs.next()){
-        AtlagFiz atlagfiz = new AtlagFiz(rs.getString("Részleg"), rs.getInt("ÁtlagFiz"));
-        this.atlagfiz.add(atlagfiz);
-      }
+              "ORDER BY ÁtlagFiz DESC");
+    
+    StringBuilder sb=new StringBuilder();
+    ArrayList<String> lines=new ArrayList<>();
+    
+    //build
+    sb.append("dataPoints: [");
+    while(rs.next()) {
+      int sum=rs.getInt("ÁtlagFiz");
+      String deptName=rs.getString("Részleg");
+      lines.add("{y: "+sum+", label: \""+deptName+"\"}");
     }
-    catch (SQLException e) {
-      e.printStackTrace();
-    }
+    sb.append(String.join(",", lines));
+    sb.append("]");
     kapcsolatZar();
+    return sb.toString();
   }
-
+    
 /*
   public String getDolgozokNeveReszlege() {
     return lekerdez(
@@ -420,6 +446,10 @@ public class AdatbazisLekerdezBean implements AdatbazisKapcsolat {
       default: msg="Ismeretlen hiba!"; break;
     }
     return msg;
-  }  
+  } 
+  
+//    public static void main(String[] args) throws SQLException {
+//        System.out.println(new AdatbazisLekerdezBean().getAtlagFizu());
+//    }
   
 }
