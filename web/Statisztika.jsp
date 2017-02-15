@@ -1,6 +1,11 @@
 <%@page import = "lekerdez.AdatbazisLekerdezBean"
    contentType="text/html" pageEncoding="ISO-8859-2" errorPage="loginHiba.jsp"%>
 <jsp:useBean id="lekerdez" class="lekerdez.AdatbazisLekerdezBean" scope="session"/>
+<%
+ //   if(!lekerdez.isLoginOK()) {
+ //       response.sendRedirect("index.php");
+ //   }
+   %>
 <!DOCTYPE html>
 <html>
   <head>
