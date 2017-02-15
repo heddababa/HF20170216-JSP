@@ -378,8 +378,64 @@ public class AdatbazisLekerdezBean implements AdatbazisKapcsolat {
     kapcsolatZar();
     return ok;
   }
+  
+  public boolean ujDolgozoFelvetele(String firstName, String lastName, 
+      String email, String phoneNumber, String jobId, int salary, double commissionPCT, int managerID, int departmentID) 
+      throws SQLException {
+    boolean beszurasOk=false;
+    kapcsolatNyit();
+		String insertTableSQL = 
+        "INSERT INTO EMPLOYEES \n" +
+        "(EMPLOYEE_ID, FIRST_NAME, LAST_NAME, EMAIL, PHONE_NUMBER, HIRE_DATE, JOB_ID, SALARY, " +
+        "COMMISSION_PCT, MANAGER_ID, DEPARTMENT_ID) \n" +
+        "VALUES \n" +
+        "( (select max(employee_id) from employees)+1, ?1, ?2, ?3, "+
+        "?4, (select sysdate from sys.dual), ?5, ?6, ?7, ?8, ?9)";    
+    try {
+      kapcsolatNyit();
+      PreparedStatement ps=kapcsolat.prepareStatement(insertTableSQL);
+      ps.setString(1, firstName);
+      ps.setString(2, lastName);
+      ps.setString(3, email);
+      ps.setString(4, phoneNumber);
+      ps.setString(5, jobId);
+      ps.setInt(6, salary);
+      if (commissionPCT==-1)
+        ps.setInt(7, 0); //ide null ertek kellene, ps.setNull(7, NULL);
+      else
+        ps.setDouble(7, commissionPCT);
+      ps.setInt(8, managerID);
+      ps.setInt(9, departmentID);      
+      ResultSet rs=ps.executeQuery();        
+      rs.next();
+      beszurasOk=true;
+    }
+    catch (SQLException e) {
+      System.out.println(e.getMessage());
+    }
+    kapcsolatZar();
+    return beszurasOk;
+  }
 
-    
+  public int lekerdezReszlegFonoke(int reszlegId) {
+    int managerId=100;
+    try {
+      kapcsolatNyit();
+      PreparedStatement ps=kapcsolat.prepareStatement(
+        "SELECT MANAGER_ID\n" +
+        "FROM DEPARTMENTS\n" +
+        "WHERE DEPARTMENT_ID=?");
+      ps.setInt(1, reszlegId);
+      ResultSet rs=ps.executeQuery();        
+      rs.next();
+      managerId=rs.getInt("MANAGER_ID");
+    }
+    catch (SQLException e) {
+      System.out.println(e.getMessage());
+    }
+    kapcsolatZar(); 
+    return managerId;
+  }    
 /*
   public String getDolgozokNeveReszlege() {
     return lekerdez(

@@ -16,22 +16,31 @@
        String reszlegId= request.getParameter("részleg");
        String munkakorId= request.getParameter("munkakor_id");
        String fizetes= request.getParameter("fizetés");
+       int managerId=lekerdez.lekerdezReszlegFonoke(Integer.parseInt(reszlegId));
     
     %>
     <p>Itt mar elvileg minden ok, lehet menteni, de a fizetest ellenorizni kell</p>
-    <p>A mentett dolgozo neve: <%= vezetekNev+" "+keresztNev %></p>
+    <p>A mentendõ dolgozo neve: <%= vezetekNev+" "+keresztNev %></p>
+    
     <%--   <% if (vezetekNev.isEmpty() || keresztNev.isEmpty() || nickNev.isEmpty() || telSzam.isEmpty() ) {
         response.sendRedirect("ujDolgozoHiba.jsp");
-      } else {%>  
-     
-    //  boolean ok = lekerdez.modositFizetés(Integer.parseInt(id), ujFizetes);
-    //  if (ok) {
-    //    response.sendRedirect("ujDolgozoMentesSiker.jsp");
-    //  }
-    //  else {
-    //    response.sendRedirect("ujDolgozoMentesHiba.jsp");
-    //    }
+      } else {%>  --%>
+    <%  
+      boolean ok=lekerdez.ujDolgozoFelvetele( vezetekNev, 
+                                              keresztNev, 
+                                              nickNev, 
+                                              telSzam, 
+                                              munkakorId, 
+                                              Integer.parseInt(fizetes), 
+                                              -1, 
+                                              managerId,
+                                              Integer.parseInt(reszlegId));
+      if (ok) {
+        response.sendRedirect("ujDolgozoMentesSiker.jsp");
       }
-     --%>
+      else {
+        response.sendRedirect("ujDolgozoMentesHiba.jsp");
+      }
+    %>
   </body>
 </html>
