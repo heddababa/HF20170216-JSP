@@ -16,7 +16,6 @@
       session.invalidate();
     %>
     <hr>    
-    <p>Köszönjük, hogy meglátogatta oldalunkat :D</p>
-    <a href="index.jsp">Vissza a bejelentkezéshez</a>    
+    <p>Köszönjük, hogy meglátogatta oldalunkat :D</p>  
   </body>
 </html>

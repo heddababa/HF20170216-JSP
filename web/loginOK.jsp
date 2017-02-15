@@ -18,8 +18,7 @@
       <h1>Oracle HR JSP kezelõ 
         (bejelentkezve: <%= session.getAttribute("felhasznalonev") %>)</h1> <%--TODO Jogkort kiiratni--%>
       <hr>
-      <p><a href="Statisztika.jsp">Statisztika megtekintése</a></p>
-      <hr>
+      <p><a href="Statisztika.jsp">Statisztikák</a></p>
       <p><a href="Dolgozok.jsp">Dolgozók fizetéseinek módosítása</a></p>
     <%--  <% if(session.getAttribute("jogkor")=="HR2") { %> --%>
       <% if(lekerdez.getJogkor().equals("HR2")) { %> 
