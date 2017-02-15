@@ -9,9 +9,9 @@
     <h1>Oracle HR JSP kezelõ (bejelentkezõ oldal)</h1>
     <hr>
     <p>Üdvözöljük a HR JSP kezelõben! Kérjük a folytatáshoz jelentkezzen be!</p>  
-    <form action="loginEllenorzo.jsp" method="post"><br><br>
-      Felhasználónév:<input type="text" name="username"><br><br>
-      Jelszó:<input type="password" name="password"><br><br>
+    <form action="loginEllenorzo.jsp" method="post"><br>
+      Felhasználónév:<input type="text" name="username"><br>
+      Jelszó:<input type="password" name="password"><br>
       <input type="submit" value="Belép">
     </form>
     <hr>

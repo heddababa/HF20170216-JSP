@@ -39,10 +39,24 @@
       <p> A jogköröd: <%= lekerdez.getJogkor()%> </p>
       <hr>
       Ezt a dolgozót választottam ki:<br> 
+      <% String id = request.getParameter("id"); 
+         int minFiz=lekerdez.getMinFizetes(id);
+         int maxFiz=lekerdez.getMaxFizetes(id);
+         int aktFizetes = lekerdez.getDolgozoFizetese(id);
+         int emeles5szazalek = Math.round(aktFizetes*1.05F);
+         int csokkentes5szazalek =  Math.round(aktFizetes*0.95F);
+         int adhatoMax = maxFiz>emeles5szazalek?emeles5szazalek:maxFiz;
+         int adhatoMin = minFiz<csokkentes5szazalek?csokkentes5szazalek:minFiz;
+         
+         session.setAttribute("minFizEll", adhatoMin);
+         session.setAttribute("maxFizEll", adhatoMax);
+         session.setAttribute("aktFizEll", aktFizetes);
+         session.setAttribute("id", id);
+      %>
       <table>
         <tr>
           <td>A dolgózó azonosítója</td>
-          <td><%= request.getParameter("id")%></td>
+          <td><%= id%></td>
         </tr>
         <tr>
           <td>A dolgózó neve</td>
@@ -50,24 +64,28 @@
         </tr>
         <tr>
           <td>Részlege</td>
-          <td><%= lekerdez.getDolgozoReszlege(request.getParameter("id"))%></td>
+          <td><%= lekerdez.getDolgozoRszlege(request.getParameter("id"))%></td>
         </tr>
         <tr>
           <td>Munkaköre</td>
           <td><%= lekerdez.getDolgozoMunkakore(request.getParameter("id"))%></td>
         </tr>
         <tr>
+          <td>Aktuális fizetés:</td>
+          <td><%= aktFizetes %></td>
+        </tr>
+        <tr>
           <td>Adható maximális fizetés:</td>
-          <td><%= lekerdez.getMaxFizetes(request.getParameter("id")) %></td>
+          <td><%= adhatoMax %></td>
         </tr>
         <tr>
           <td>Adható minimális fizetés: </td>
-          <td><%= lekerdez.getMinFizetes(request.getParameter("id"))%></td>
+          <td><%= adhatoMin %></td>
         </tr>
       </table>
         <br><br>
         <form action="fizetesEllenorzes.jsp" method="post">
-          Új fizetés:<input type="text" name="fizetes"><br>
+          Új fizetés:<input type="number" name="fizetes" max=<%= adhatoMax %> min=<%= adhatoMin %> required><br>
           <input type="submit" value="Mehet">
         </form>
         <hr>

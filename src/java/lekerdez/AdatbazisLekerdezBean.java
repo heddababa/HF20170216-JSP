@@ -24,10 +24,12 @@ public class AdatbazisLekerdezBean implements AdatbazisKapcsolat {
   private String jogkor;
   private int hibakod;
   public ArrayList<Dolgozo> dolgozok = new ArrayList<>();
-  private ArrayList<Reszleg> reszlegek = new ArrayList<>();
+  public ArrayList<Reszleg> reszlegek = new ArrayList<>();
   private ArrayList<Munkakor> munkakorok = new ArrayList<>();
   
   private File xmlFájl=new File("c:/BH01/Hf-20170216-JSP/web/META-INF/userek.xml");
+  //private File xmlFájl=new File("../web/META-INF/userek.xml"); //c:\BH01\Hf-20170216-JSP\web\META-INF\
+  //private File xmlFájl=new File("userek.xml");
   //private File xmlFájl=new File("./META-INF/userek.xml");
   private Connection kapcsolat;
   
@@ -71,9 +73,9 @@ public class AdatbazisLekerdezBean implements AdatbazisKapcsolat {
     return munkakorok;
   }
   
-  public String getDolgozoNeve(String id){
+  public String getDolgozoNeve(String dolgozoId){
     int i=0;
-    int id1=Integer.parseInt(id);
+    int id1=Integer.parseInt(dolgozoId);
     String s;
     while (!(dolgozok.get(i).getEmpID()==id1)) {      
       i++;
@@ -86,9 +88,25 @@ public class AdatbazisLekerdezBean implements AdatbazisKapcsolat {
     return s;
   }
   
-  public String getDolgozoReszlege(String id){
+  public int getDolgozoFizetese(String dolgozoId){
     int i=0;
-    int id1=Integer.parseInt(id);
+    int id1=Integer.parseInt(dolgozoId);
+    int fiz;
+    while (!(dolgozok.get(i).getEmpID()==id1)) {      
+      i++;
+    }
+    if (i<dolgozok.size()) {
+      fiz=dolgozok.get(i).getFizetes();
+    }else{
+      fiz=0;
+    }
+    return fiz;
+  }
+  
+  
+  public String getDolgozoRszlege(String dogozoId){
+    int i=0;
+    int id1=Integer.parseInt(dogozoId);
     String s;
     while (!(dolgozok.get(i).getEmpID()==id1)) {      
       i++;
@@ -101,9 +119,9 @@ public class AdatbazisLekerdezBean implements AdatbazisKapcsolat {
     return s;
   }
 
-  public String getDolgozoMunkakore(String id){
+  public String getDolgozoMunkakore(String dolgozoId){
     int i=0;
-    int id1=Integer.parseInt(id);
+    int id1=Integer.parseInt(dolgozoId);
     String s;
     while (!(dolgozok.get(i).getEmpID()==id1)) {      
       i++;
@@ -116,8 +134,10 @@ public class AdatbazisLekerdezBean implements AdatbazisKapcsolat {
     return s;
   }
   
-  public String getMaxFizetes(String userId){    
-    String munkakorAzonosito = getDolgozoMunkakore(userId);
+  public int getMaxFizetes(String dolgozoId){
+    
+    String munkakorAzonosito = getDolgozoMunkakore(dolgozoId);
+
     int fizetes=0;
     try {
       kapcsolatNyit();
@@ -134,11 +154,12 @@ public class AdatbazisLekerdezBean implements AdatbazisKapcsolat {
       System.out.println(e.getMessage());
     }
     kapcsolatZar();
-    return ""+fizetes;
+    return fizetes;
   }
+
   
-  public String getMinFizetes(String userId){
-    String munkakorAzonosito = getDolgozoMunkakore(userId);    
+  public int getMinFizetes(String dolgozoId){
+    String munkakorAzonosito = getDolgozoMunkakore(dolgozoId);    
     int fizetes=0;
     try {
       kapcsolatNyit();
@@ -155,7 +176,7 @@ public class AdatbazisLekerdezBean implements AdatbazisKapcsolat {
       System.out.println(e.getMessage());
     }
     kapcsolatZar();    
-    return ""+fizetes;
+    return fizetes;
   }
   
   private void kapcsolatNyit() {
@@ -179,6 +200,7 @@ public class AdatbazisLekerdezBean implements AdatbazisKapcsolat {
       System.out.println("Hiba! Nem sikerült lezárni a kapcsolatot az adatbázis-szerverrel.");
     }
   } 
+
   
   private String lekerdez(String sql, String reszlegId) {
     String táblázat="";
@@ -215,7 +237,7 @@ public class AdatbazisLekerdezBean implements AdatbazisKapcsolat {
         Dolgozo dolgozo = new Dolgozo(rs.getInt("empId"),
                 rs.getString("Dolgozó"),
                 0,
-                rs.getString("Részleg"),     /*rs.getInt("depId").isEmpty ? "Részleg nélküli" : rs.getString("depName"),*/
+                rs.getString("Részleg"),                          /*rs.getInt("depId") == 0 ? "Részleg nélküli" : rs.getString("depName"),*/
                 rs.getString("Munkakör"),
                 rs.getInt("Fizetés"),
                 rs.getDate("Belépési_dátum"));
@@ -237,9 +259,12 @@ public class AdatbazisLekerdezBean implements AdatbazisKapcsolat {
       s="Hiba! "+e.getMessage();
     }    
     return s;
-  }  
+  }
+  
+  
   
   public String getDolgozokAdatai(String reszlegId) {
+    dolgozok.clear();
     if ( reszlegId==null || reszlegId.equals("mindenki")) {
       return lekerdez(
               "SELECT E.EMPLOYEE_ID AS empId, "
@@ -271,7 +296,7 @@ public class AdatbazisLekerdezBean implements AdatbazisKapcsolat {
     }
   }
 
-  private void getReszlegek() {
+    private void getReszlegek() {
     try {
       kapcsolatNyit();
       Statement s = kapcsolat.createStatement();
@@ -291,7 +316,7 @@ public class AdatbazisLekerdezBean implements AdatbazisKapcsolat {
     }
     kapcsolatZar();
   }
-
+    
   private void getMunkakorok() {
     try {
       kapcsolatNyit();
@@ -309,7 +334,128 @@ public class AdatbazisLekerdezBean implements AdatbazisKapcsolat {
       e.printStackTrace();
     }
     kapcsolatZar();
+  }  
+
+  public boolean modositFizetés(int dolgozoID, int ujFizetes) {
+    PreparedStatement ps = null;
+    boolean ok = false;
+    String fizetesModositoSQL
+            = "UPDATE EMPLOYEES \n"
+            + "SET SALARY=? \n"
+            + "WHERE EMPLOYEE_ID=? ";
+
+    kapcsolatNyit();
+    try {
+      kapcsolat.setAutoCommit(false);
+      ps = kapcsolat.prepareStatement(fizetesModositoSQL);
+      ps.setString(1, "" + ujFizetes);
+      ps.setDouble(2, dolgozoID);
+      ps.executeUpdate();
+      kapcsolat.commit();
+      ok = true;
+    } catch (SQLException e) {
+      System.out.println(e.getMessage());
+      //JDBCTutorialUtilities.printSQLException(e);
+      if (kapcsolat != null) {
+        try {
+          System.err.print("A tranzakció visszagörgetésre kerül!");
+          kapcsolat.rollback();
+        } catch (SQLException excep) {
+          System.out.println(e.getMessage());
+          //JDBCTutorialUtilities.printSQLException(excep);
+        }
+      }
+    } finally {
+      try {
+        if (ps != null) {
+          ps.close();
+        }
+        kapcsolat.setAutoCommit(true);
+      } catch (SQLException sQLException) {
+        sQLException.printStackTrace();
+      }
+    }
+    kapcsolatZar();
+    return ok;
   }
+
+    
+/*
+  public String getDolgozokNeveReszlege() {
+    return lekerdez(
+      "SELECT FIRST_NAME || ' ' || LAST_NAME AS NÉV, DEPARTMENT_NAME AS RÉSZLEG "+
+      "FROM DEPARTMENTS D, EMPLOYEES E "+
+      "WHERE E.DEPARTMENT_ID=D.DEPARTMENT_ID "+
+      "ORDER BY NÉV");
+  }
+ 
+  public String getDolgozokNeveReszlegeFizetese() {
+    return lekerdez(
+      "SELECT FIRST_NAME || ' ' || LAST_NAME AS NÉV, DEPARTMENT_NAME AS RÉSZLEG, SALARY AS FIZETÉS "+
+      "FROM DEPARTMENTS D, EMPLOYEES E "+
+      "WHERE E.DEPARTMENT_ID=D.DEPARTMENT_ID "+
+      "ORDER BY NÉV");
+  }
+
+  public String getReszlegek() {
+    return lekerdez(
+      "SELECT DEPARTMENT_NAME AS RÉSZLEG "+
+      "FROM DEPARTMENTS "+
+      "ORDER BY 1");
+  }
+
+  public String getAtlagFizetes() {
+    return lekerdez("SELECT AVG(SALARY) AS Átlagfizetés FROM EMPLOYEES");
+  }
+  
+  public String getReszlegekLetszamok() {
+    return lekerdez(
+      "SELECT DEPARTMENT_NAME AS RÉSZLEG, COUNT(EMPLOYEE_ID) AS LÉTSZÁM "+
+      "FROM DEPARTMENTS D, EMPLOYEES E "+
+      "WHERE E.DEPARTMENT_ID=D.DEPARTMENT_ID "+
+      "GROUP BY DEPARTMENT_NAME");
+  }
+*/
+  
+  private Munkakor keresMunkakor(String munkakorId) {
+    int i=0;
+    while (i<munkakorok.size() && munkakorok.get(i).getMunkakorId()!=munkakorId)
+      i++;
+    return munkakorok.get(i);
+  }
+            
+  public String adhatoMinMaxFizetes(String reszlegId, String munkakorId) {
+    int[] osszFizetesosszLetszam=getOsszFizLetszReszlegenBelul(Integer.parseInt(reszlegId));
+    int osszFiz=osszFizetesosszLetszam[0];
+    int osszLetszam=osszFizetesosszLetszam[1];
+    Munkakor munkakor=keresMunkakor(munkakorId);
+    long adhatoMinFizetes=Math.max(Math.round( osszFiz*(-0.05) + (osszFiz*0.95/osszLetszam)), munkakor.getMinFizetes());
+    long adhatoMaxFizetes=Math.min( Math.round( osszFiz*0.05 + (osszFiz*1.05/osszLetszam)), munkakor.getMaxFizetes());
+    System.out.println(adhatoMinFizetes+"-"+adhatoMaxFizetes);
+    return adhatoMinFizetes+"-"+adhatoMaxFizetes;
+  }
+  
+  private int[] getOsszFizLetszReszlegenBelul(int reszlegID) { 
+    //Adott reszlegen belul dolgozok osszfizetese es letszama
+    int[] osszFizetesEsLetszam={0,0};
+    try {
+      kapcsolatNyit();
+      PreparedStatement ps=kapcsolat.prepareStatement(
+        "SELECT SUM(SALARY) AS osszFizetes, COUNT(SALARY) AS osszLetszam \n" +
+        "FROM EMPLOYEES\n" +
+        "WHERE DEPARTMENT_ID=?");
+      ps.setString(1, ""+reszlegID);
+      ResultSet rs=ps.executeQuery();        
+      rs.next();
+      osszFizetesEsLetszam[0]=rs.getInt("osszFizetes");
+      osszFizetesEsLetszam[1]=rs.getInt("osszLetszam");
+    }
+    catch (SQLException e) {
+      System.out.println(e.getMessage());
+    }
+    kapcsolatZar();
+    return osszFizetesEsLetszam;    
+  }  
   
   public int jelszóEllenõrzés(String name, String password) { //@hedda
     String loginName="", loginPassword="", loginJogkor="";

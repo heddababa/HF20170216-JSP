@@ -37,12 +37,16 @@
             <% } %> 
           </select><br> 
         
-        <p id="adhatoFizu">Adható fizetés: </p>
+          <p id="adhatoFizu">Adható fizetés: 
+      <%--      <%= lekerdez.adhatoMinMaxFizetes(request.getParameter("department_id") , request.getParameter("job_Id") )%></p> --%>
+        <p id="fizhatarok"> </p>
         <script>
           function fizetesHatarok() {
             var reszleg = document.getElementById("departments").value;
-            var munkakor = document.getElementById("jobs").value;
-            document.getElementById("adhatoFizu").innerHTML = "Adható fizetés: " + reszleg + " "+munkakor; // request.getParameter("reszlegId");
+            var munkakor = document.getElementById("jobs").value;            
+            document.getElementById("adhatoFizu").innerHTML = "Kiválasztott részleg és munkakör: "+reszleg+", "+munkakor;
+          <%--  document.getElementById("fizhatarok").innerHTML = <%= lekerdez.adhatoMinMaxFizetes(reszleg, munkakor) %>;              
+            document.getElementById("fizhatarok").innerHTML = <%= lekerdez.adhatoMinMaxFizetes(request.getParameter("department_id"), request.getParameter("job_Id"))%> --%>
           }
         </script>
         

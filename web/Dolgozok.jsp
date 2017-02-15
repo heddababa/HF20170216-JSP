@@ -6,30 +6,31 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-2">
-    <title>Oracle HR JSP kezelő</title>    
+    <title>Oracle HR JSP lekérdező</title>
   </head>  
-  <body>  
+  <body>
     <h1>Oracle HR JSP lekérdező (Dolgozók listája fizetésekkel)</h1>
+        <hr>
+      <a href="loginOK.jsp">Vissza</a>
+
     <hr>
     <% if(!lekerdez.isLoginOK()) { %>
       <p>Az oldal tartalma csak bejelentkezés után érhető el.</p>
       <hr>
-      <p><a href="login.jsp">Vissza a bejelentkezéshez</a></p>
+      <p><a href="index.jsp">Oracle HR JSP lekérdező (bejelentkezés)</a></p>
     <% } else { %>
     <p>Dolgozók adatai</p>
     <form action="Dolgozok.jsp" method="POST">
       <select name="reszlegId">
         <option selected value="mindenki" >Minden dolgozó</option>
-        <% for (Reszleg reszleg : lekerdez.getReszleg()) {%>
+        <% for (Reszleg reszleg : lekerdez.reszlegek) {%>
         <option value="<%= reszleg.getReszlegId()%>"><%= reszleg.getReszlegNev()%></option>
         <% }%>
       </select>
-      <input type="submit" value="Részleg választás" />
+      <input type="submit" value="Részleg válsztás" />
     </form>
     <hr>
     <%= lekerdez.getDolgozokAdatai(request.getParameter("reszlegId"))%>
-    <hr>
-      <a href="loginOK.jsp">Vissza</a>
     <% } %>    
   </body>
 </html>
