@@ -1,6 +1,11 @@
 <%@page import = "lekerdez.AdatbazisLekerdezBean"
    contentType="text/html" pageEncoding="ISO-8859-2" errorPage="loginHiba.jsp"%>
 <jsp:useBean id="lekerdez" class="lekerdez.AdatbazisLekerdezBean" scope="session"/>
+<%
+ //   if(!lekerdez.isLoginOK()) {
+ //       response.sendRedirect("index.php");
+ //   }
+   %>
 <!DOCTYPE html>
 <html>
   <head>
@@ -8,15 +13,47 @@
     <title>Oracle HR JSP kezelõ</title>
   </head>  
   <body>
-    <h1>Oracle HR JSP kezelõ (Statisztika oldala) 
-        (bejelentkezve: <%= session.getAttribute("felhasznalonev") %>)</h1> <%--TODO Jogkort kiiratni--%>
+    <h1>Oracle HR JSP kezelõ (Statisztika oldala)</h1>
     <hr>
     <% if(!lekerdez.isLoginOK()) { %>
       <p>Az oldal tartalma csak bejelentkezés után érhetõ el.</p>
       <hr>
       <p><a href="login.jsp">Vissza a bejelentkezéshez</a></p>
     <% } else { %>
-      <p>TODO Valamilyen staisztika kimutatasa...</p> 
+      <script type="text/javascript">
+          window.onload = function () {
+            var chart = new CanvasJS.Chart("chartContainer",
+            {
+              title:{
+                text: "Top Oil Reserves"    
+              },
+              animationEnabled: true,
+              axisY: {
+                title: "Reserves(MMbbl)"
+              },
+              legend: {
+                verticalAlign: "bottom",
+                horizontalAlign: "center"
+              },
+              theme: "theme2",
+              data: [
+
+              {        
+                type: "column",  
+                showInLegend: true, 
+                legendMarkerColor: "grey",
+                legendText: "MMbbl = one million barrels",
+            <%=lekerdez.getAtlagFizu()%>
+              }   
+              ]
+            });
+
+            chart.render();
+          }
+          </script>
+          <script type="text/javascript" src="canvasjs.min.js"></script>
+          <div id="chartContainer" style="height: 500px; width: 70%;">
+          </div>
       <hr>
       <p><a href="loginOK.jsp">Vissza</a></p>
     <% } %>    

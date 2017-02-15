@@ -332,6 +332,30 @@ public class AdatbazisLekerdezBean implements AdatbazisKapcsolat {
     }
     kapcsolatZar();
   }  
+  
+  public String getAtlagFizu() throws SQLException {
+    kapcsolatNyit();
+    Statement s = kapcsolat.createStatement();
+    ResultSet rs=s.executeQuery(
+              "SELECT D.DEPARTMENT_NAME AS Részleg, ROUND(SUM(SALARY)/COUNT(E.EMPLOYEE_ID)) AS ÁtlagFiz\n" +
+              "FROM DEPARTMENTS D, EMPLOYEES E\n" +
+              "WHERE E.DEPARTMENT_ID=D.DEPARTMENT_ID\n" +
+              "GROUP BY D.DEPARTMENT_NAME\n" +
+              "ORDER BY ÁtlagFiz DESC");
+    
+    StringBuilder sb=new StringBuilder();
+    ArrayList<String> lines=new ArrayList<>();
+    sb.append("dataPoints: [");
+    while(rs.next()) {
+      int sum=rs.getInt("ÁtlagFiz");
+      String deptName=rs.getString("Részleg");
+      lines.add("{y: "+sum+", label: \""+deptName+"\"}");
+    }
+    sb.append(String.join(",", lines));
+    sb.append("]");
+    kapcsolatZar();
+    return sb.toString();
+  }
 
   public boolean modositFizetés(int dolgozoID, int ujFizetes) {
     PreparedStatement ps = null;
