@@ -18,7 +18,8 @@
       <hr>
       <p><a href="login.jsp">Vissza a bejelentkezéshez</a></p>
     <% } else { %>      
-      <p>Új dolgozók adatai</p>
+      <p>Új dolgozó adatai</p>
+      <%--<form name="urlap" action="ujDolgozoFizetes.jsp" method="post" onsubmit="return ellenoriz()"><br>--%>
       <form name="urlap" action="ujDolgozoEllenorzo.jsp" method="post" onsubmit="return ellenoriz()"><br>
         Vezetéknév: <input type="text" name="vezeték_név" width="25"><br><br>
         Keresztnév: <input type="text" name="kereszt_név" width="20"><br><br>
@@ -37,10 +38,13 @@
             <% } %> 
           </select><br> 
         
-        <p id="adhatoFizu">Adható fizetés: 
-      <%--      <%= lekerdez.adhatoMinMaxFizetes(request.getParameter("department_id") , request.getParameter("job_Id") )%></p> --%>
-        <p id="fizhatarok"> </p>
-        Fizetés: <input type="text" name="fizetés" width="8"><br><br>
+        <%--<p>A fizetés a következõ oldalon adható meg! </p>
+        
+        <%= lekerdez.adhatoMinMaxFizetes(request.getParameter("department_id") , request.getParameter("job_Id") )%></p>
+        <p id="fizhatarok"> </p>--%>
+        <p id="adhatoFizu"> </p>
+        Fizetés: <input type="text" name="fizetés" width="8"><br><br>  
+        <%--<input type="submit" value="Tovább a fizetéshez">--%>
         <input type="submit" value="Mentés">
       </form>       
         
@@ -98,10 +102,8 @@
             if (uresCheck(document.urlap.vezeték_név) &&
               uresCheck(document.urlap.kereszt_név) &&
               uresCheck(document.urlap.email) &&
-              telefonCheck(document.urlap.tel_szam) &&
-              numerikusCheck(document.urlap.fizetés)){
-            <%--document.form.action = "mailto:"+document.form.email.value;--%>
-
+              telefonCheck(document.urlap.tel_szam) && 
+              numerikusCheck(document.urlap.fizetés)) {
               return true;
             }
             else return false;

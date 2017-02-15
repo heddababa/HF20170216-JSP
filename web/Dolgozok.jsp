@@ -27,7 +27,7 @@
         <option value="<%= reszleg.getReszlegId()%>"><%= reszleg.getReszlegNev()%></option>
         <% }%>
       </select>
-      <input type="submit" value="Részleg válsztás" />
+      <input type="submit" value="Részleg választás" />
     </form>
     <hr>
     <%= lekerdez.getDolgozokAdatai(request.getParameter("reszlegId"))%>

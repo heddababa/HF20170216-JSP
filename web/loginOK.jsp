@@ -19,7 +19,7 @@
         (bejelentkezve: <%= session.getAttribute("felhasznalonev") %>)</h1> <%--TODO Jogkort kiiratni--%>
       <hr>
       <p><a href="Statisztikak.jsp">Statisztikák</a></p>
-      <p><a href="Dolgozok.jsp">Dolgozók fizetéseinek módisítása</a></p>
+      <p><a href="Dolgozok.jsp">Dolgozók fizetéseinek módosítása</a></p>
     <%--  <% if(session.getAttribute("jogkor")=="HR2") { %> --%>
       <% if(lekerdez.getJogkor().equals("HR2")) { %> 
         <%-- csak ha session.getAttribute("jogkor")=="HR2"-vel! vagy lekerdez.getjogkor.equals("HR2") --%>

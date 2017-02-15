@@ -6,6 +6,8 @@
     <title>JSP Page</title>
   </head>
   <body>
-    <h1>A dolgozó mentése sikerült</h1>
+    <h1>A dolgozó mentése sikerült!</h1>
+    <hr>
+    <p><a href="loginOK.jsp">Vissza</a></p>
   </body>
 </html>

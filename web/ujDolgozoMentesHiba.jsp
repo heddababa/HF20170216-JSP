@@ -7,5 +7,7 @@
   </head>
   <body>
     <h1>Az új dolgozó mentése NEM sikerült!</h1>
+    <hr>
+    <p><a href="ujDolgozo.jsp">Vissza</a></p>
   </body>
 </html>

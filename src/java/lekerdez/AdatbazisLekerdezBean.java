@@ -156,7 +156,6 @@ public class AdatbazisLekerdezBean implements AdatbazisKapcsolat {
     kapcsolatZar();
     return fizetes;
   }
-
   
   public int getMinFizetes(String dolgozoId){
     String munkakorAzonosito = getDolgozoMunkakore(dolgozoId);    
@@ -259,9 +258,7 @@ public class AdatbazisLekerdezBean implements AdatbazisKapcsolat {
       s="Hiba! "+e.getMessage();
     }    
     return s;
-  }
-  
-  
+  }  
   
   public String getDolgozokAdatai(String reszlegId) {
     dolgozok.clear();
@@ -296,7 +293,7 @@ public class AdatbazisLekerdezBean implements AdatbazisKapcsolat {
     }
   }
 
-    private void getReszlegek() {
+  private void getReszlegek() {
     try {
       kapcsolatNyit();
       Statement s = kapcsolat.createStatement();
@@ -436,42 +433,6 @@ public class AdatbazisLekerdezBean implements AdatbazisKapcsolat {
     kapcsolatZar(); 
     return managerId;
   }    
-/*
-  public String getDolgozokNeveReszlege() {
-    return lekerdez(
-      "SELECT FIRST_NAME || ' ' || LAST_NAME AS NÉV, DEPARTMENT_NAME AS RÉSZLEG "+
-      "FROM DEPARTMENTS D, EMPLOYEES E "+
-      "WHERE E.DEPARTMENT_ID=D.DEPARTMENT_ID "+
-      "ORDER BY NÉV");
-  }
- 
-  public String getDolgozokNeveReszlegeFizetese() {
-    return lekerdez(
-      "SELECT FIRST_NAME || ' ' || LAST_NAME AS NÉV, DEPARTMENT_NAME AS RÉSZLEG, SALARY AS FIZETÉS "+
-      "FROM DEPARTMENTS D, EMPLOYEES E "+
-      "WHERE E.DEPARTMENT_ID=D.DEPARTMENT_ID "+
-      "ORDER BY NÉV");
-  }
-
-  public String getReszlegek() {
-    return lekerdez(
-      "SELECT DEPARTMENT_NAME AS RÉSZLEG "+
-      "FROM DEPARTMENTS "+
-      "ORDER BY 1");
-  }
-
-  public String getAtlagFizetes() {
-    return lekerdez("SELECT AVG(SALARY) AS Átlagfizetés FROM EMPLOYEES");
-  }
-  
-  public String getReszlegekLetszamok() {
-    return lekerdez(
-      "SELECT DEPARTMENT_NAME AS RÉSZLEG, COUNT(EMPLOYEE_ID) AS LÉTSZÁM "+
-      "FROM DEPARTMENTS D, EMPLOYEES E "+
-      "WHERE E.DEPARTMENT_ID=D.DEPARTMENT_ID "+
-      "GROUP BY DEPARTMENT_NAME");
-  }
-*/
   
   private Munkakor keresMunkakor(String munkakorId) {
     int i=0;
@@ -480,15 +441,16 @@ public class AdatbazisLekerdezBean implements AdatbazisKapcsolat {
     return munkakorok.get(i);
   }
             
-  public String adhatoMinMaxFizetes(String reszlegId, String munkakorId) {
+  public long[] adhatoMinMaxFizetes(String reszlegId, String munkakorId) {
     int[] osszFizetesosszLetszam=getOsszFizLetszReszlegenBelul(Integer.parseInt(reszlegId));
     int osszFiz=osszFizetesosszLetszam[0];
     int osszLetszam=osszFizetesosszLetszam[1];
     Munkakor munkakor=keresMunkakor(munkakorId);
     long adhatoMinFizetes=Math.max(Math.round( osszFiz*(-0.05) + (osszFiz*0.95/osszLetszam)), munkakor.getMinFizetes());
     long adhatoMaxFizetes=Math.min( Math.round( osszFiz*0.05 + (osszFiz*1.05/osszLetszam)), munkakor.getMaxFizetes());
-    System.out.println(adhatoMinFizetes+"-"+adhatoMaxFizetes);
-    return adhatoMinFizetes+"-"+adhatoMaxFizetes;
+    long[] segedtomb={adhatoMinFizetes, adhatoMaxFizetes};
+    return segedtomb;
+    //return adhatoMinFizetes+"-"+adhatoMaxFizetes;
   }
   
   private int[] getOsszFizLetszReszlegenBelul(int reszlegID) { 
