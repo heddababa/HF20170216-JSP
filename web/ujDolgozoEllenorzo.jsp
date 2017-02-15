@@ -1,26 +1,37 @@
-<%@page import = "lekerdez.AdatbazisLekerdezBean"
-   contentType="text/html" pageEncoding="ISO-8859-2" errorPage="loginHiba.jsp"%>
+<%@page import = "lekerdez.AdatbazisLekerdezBean" 
+        contentType="text/html" pageEncoding="ISO-8859-2" errorPage="loginHiba.jsp"%>
 <jsp:useBean id="lekerdez" class="lekerdez.AdatbazisLekerdezBean" scope="session"/>
 <!DOCTYPE html>
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-2">
-    <title>Oracle HR JSP kezelő</title>    
-  </head>  
-  <body>  
-    <h1>Oracle HR JSP lekérdező (Uj dolgozo adatainak ellenorzese)</h1>
-    <hr>
-    <% if(!lekerdez.isLoginOK()) { %>
-      <p>Az oldal tartalma csak bejelentkezés után érhető el.</p>
-      <hr>
-      <p><a href="login.jsp">Vissza a bejelentkezéshez</a></p>
-    <% } else { %>
-    <p>Dolgozók adatai</p>
+    <title>Oracle HR JSP kezelő</title>
+  </head>
+  <body>
+    <h1>Oracle HR JSP kezelő (Új dolgozó adatainak ellenőrzése)</h1>
+    <% String vezetekNev = request.getParameter("vezeték_név"); 
+       String keresztNev = request.getParameter("kereszt_név");
+       String nickNev = request.getParameter("email");
+       String telSzam = request.getParameter("tel_szam");
+       String reszlegId= request.getParameter("részleg");
+       String munkakorId= request.getParameter("munkakor_id");
+       String fizetes= request.getParameter("fizetés");
     
-    
-    <hr>
-    <hr>
-      <a href="loginOK.jsp">Vissza</a>
-    <% } %>    
+    %>
+    <p>Itt mar elvileg minden ok, lehet menteni, de a fizetest ellenorizni kell</p>
+    <p>A mentett dolgozo neve: <%= vezetekNev+" "+keresztNev %></p>
+    <%--   <% if (vezetekNev.isEmpty() || keresztNev.isEmpty() || nickNev.isEmpty() || telSzam.isEmpty() ) {
+        response.sendRedirect("ujDolgozoHiba.jsp");
+      } else {%>  
+     
+    //  boolean ok = lekerdez.modositFizetés(Integer.parseInt(id), ujFizetes);
+    //  if (ok) {
+    //    response.sendRedirect("ujDolgozoMentesSiker.jsp");
+    //  }
+    //  else {
+    //    response.sendRedirect("ujDolgozoMentesHiba.jsp");
+    //    }
+      }
+     --%>
   </body>
 </html>
