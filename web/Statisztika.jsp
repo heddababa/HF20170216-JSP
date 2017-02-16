@@ -25,11 +25,11 @@
             var chart = new CanvasJS.Chart("chartContainer",
             {
               title:{
-                text: "Top Oil Reserves"    
+                text: "Részlegek átlagfizetése"    
               },
               animationEnabled: true,
               axisY: {
-                title: "Reserves(MMbbl)"
+                title: "Átlagfizetés(USD)"
               },
               legend: {
                 verticalAlign: "bottom",
@@ -42,7 +42,7 @@
                 type: "column",  
                 showInLegend: true, 
                 legendMarkerColor: "grey",
-                legendText: "MMbbl = one million barrels",
+                legendText: "",
             <%=lekerdez.getAtlagFizu()%>
               }   
               ]
@@ -52,7 +52,7 @@
           }
           </script>
           <script type="text/javascript" src="canvasjs.min.js"></script>
-          <div id="chartContainer" style="height: 500px; width: 70%;">
+          <div id="chartContainer" style="height: 500px; width: 90%;">
           </div>
       <hr>
       <p><a href="loginOK.jsp">Vissza</a></p>
