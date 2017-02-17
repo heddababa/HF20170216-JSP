@@ -464,6 +464,16 @@ public class AdatbazisLekerdezBean implements AdatbazisKapcsolat {
       i++;
     return munkakorok.get(i);
   }
+  
+  public String adhatoMinMaxFizetesString(String reszlegId, String munkakorId) {
+    int[] osszFizetesosszLetszam=getOsszFizLetszReszlegenBelul(Integer.parseInt(reszlegId));
+    int osszFiz=osszFizetesosszLetszam[0];
+    int osszLetszam=osszFizetesosszLetszam[1];
+    Munkakor munkakor=keresMunkakor(munkakorId);
+    long adhatoMinFizetes=Math.max(Math.round( osszFiz*(-0.05) + (osszFiz*0.95/osszLetszam)), munkakor.getMinFizetes());
+    long adhatoMaxFizetes=Math.min( Math.round( osszFiz*0.05 + (osszFiz*1.05/osszLetszam)), munkakor.getMaxFizetes());
+    return adhatoMinFizetes+"-"+adhatoMaxFizetes;
+  }
             
   public long[] adhatoMinMaxFizetes(String reszlegId, String munkakorId) {
     int[] osszFizetesosszLetszam=getOsszFizLetszReszlegenBelul(Integer.parseInt(reszlegId));

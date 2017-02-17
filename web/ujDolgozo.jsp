@@ -13,10 +13,10 @@
     <h1>Oracle HR JSP kezelõ (Új dolgozó felvitele oldal)
         (bejelentkezve: <%= session.getAttribute("felhasznalonev") %>)</h1> <%--TODO Jogkort kiiratni--%>
     <hr>
-    <% if(!lekerdez.isLoginOK()) { %>
+    <% if(!lekerdez.isLoginOK() || !lekerdez.getJogkor().equals("HR2") ){ %>
       <p>Az oldal tartalma csak bejelentkezés után érhetõ el.</p>
       <hr>
-      <p><a href="login.jsp">Vissza a bejelentkezéshez</a></p>
+      <p><a href="loginOK.jsp">Vissza a bejelentkezéshez</a></p>
     <% } else { %>      
       <p>Új dolgozó adatai</p>
       <%--<form name="urlap" action="ujDolgozoFizetes.jsp" method="post" onsubmit="return ellenoriz()"><br>--%>
@@ -36,13 +36,12 @@
             <% for (Munkakor munkakor : lekerdez.getMunkakor()) {%>
               <option value="<%= munkakor.getMunkakorId()%>"><%= munkakor.getMunkakorNev()%>
             <% } %> 
-          </select><br> 
+          </select><br><br>
         
         <%--<p>A fizetés a következõ oldalon adható meg! </p>
         
         <%= lekerdez.adhatoMinMaxFizetes(request.getParameter("department_id") , request.getParameter("job_Id") )%></p>
         <p id="fizhatarok"> </p>--%>
-        <p id="adhatoFizu"> </p>
         Fizetés: <input type="text" name="fizetés" width="8"><br><br>  
         <%--<input type="submit" value="Tovább a fizetéshez">--%>
         <input type="submit" value="Mentés">

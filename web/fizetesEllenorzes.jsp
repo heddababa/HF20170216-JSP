@@ -23,7 +23,7 @@
     <% if (ujFizetes < minFiz || ujFizetes > maxFiz || ujFizetes==aktFfizetes ) {
         response.sendRedirect("fizetesHiba.jsp");
       } else {%>
-    <p>Fizetés rendben lehet menteni, mentés</p>
+    <p>Fizetés rendbne lehet menteni, mentés</p>
     <% boolean ok = lekerdez.modositFizetés(Integer.parseInt(id), ujFizetes);
 
         if (ok) {
