@@ -12,7 +12,7 @@
     <% if(request.getParameter("username")==null) { %>
       <p>Az oldal tartalma csak bejelentkezés után érhetõ el.</p>
       <hr>
-      <p><a href="login.jsp">Vissza a bejelentkezéshez</a></p>
+      <p><a href="index.jsp">Vissza a bejelentkezéshez</a></p>
     <% } else {
         String felhasznalonev=request.getParameter("username");
         String jelszo=request.getParameter("password");        

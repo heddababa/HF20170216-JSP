@@ -13,13 +13,12 @@
       <hr>
       <p>Az oldal tartalma csak bejelentkezés után érhetõ el.</p>
       <hr>
-      <p><a href="login.jsp">Vissza a bejelentkezéshez</a></p>
+      <p><a href="index.jsp">Vissza a bejelentkezéshez</a></p>
     <% } else { %>
       <h1>Oracle HR JSP kezelõ 
         (bejelentkezve: <%= session.getAttribute("felhasznalonev") %>)</h1> <%--TODO Jogkort kiiratni--%>
       <hr>
-      <p><a href="Statisztika.jsp">Statisztika megtekintése</a></p>
-      <hr>
+      <p><a href="Statisztika.jsp">Statisztikák</a></p>
       <p><a href="Dolgozok.jsp">Dolgozók fizetéseinek módosítása</a></p>
     <%--  <% if(session.getAttribute("jogkor")=="HR2") { %> --%>
       <% if(lekerdez.getJogkor().equals("HR2")) { %> 
