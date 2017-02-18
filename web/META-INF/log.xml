@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Logolas>
+  <Log>
+    <Time>admin1</Time>
+    <User>8cb2237d0679ca88db6464eac60da96345513964</User>
+    <Muvelet>HR1</Muvelet>
+  </Log>
+  <Log>
+    <Time>admin2</Time>
+    <User>348162101fc6f7e624681b7400b085eeac6df7bd</User>
+    <Muvelet>HR2</Muvelet>
+  </Log>
+  <Log>
+    <Time>admin3</Time>
+    <User>8cb2237d0679ca88db6464eac60da96345513964</User>
+    <Muvelet>HR3</Muvelet>
+  </Log>
+</Logolas>

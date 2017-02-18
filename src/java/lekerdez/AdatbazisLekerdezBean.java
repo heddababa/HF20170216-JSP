@@ -14,8 +14,10 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
@@ -26,8 +28,14 @@ public class AdatbazisLekerdezBean implements AdatbazisKapcsolat {
   public ArrayList<Dolgozo> dolgozok = new ArrayList<>();
   public ArrayList<Reszleg> reszlegek = new ArrayList<>();
   private ArrayList<Munkakor> munkakorok = new ArrayList<>();
+  //nigel727:
+//  private Document logXML;
+//  private File logXMLfile = new File("./log.xml");
+
+          
   
-  private File xmlFájl=new File("c:/BH01/Hf-20170216-JSP/web/META-INF/userek.xml");
+  private File xmlFájl=new File("c:/BH01/HF20170216-JSP/web/META-INF/userek.xml");
+  private static File xmlLogFile=new File("c:/BH01/Hf-20170216-JSP/web/META-INF/log.xml");
   //private File xmlFájl=new File("../web/META-INF/userek.xml"); //c:\BH01\Hf-20170216-JSP\web\META-INF\
   //private File xmlFájl=new File("userek.xml");
   //private File xmlFájl=new File("./META-INF/userek.xml");
@@ -39,6 +47,32 @@ public class AdatbazisLekerdezBean implements AdatbazisKapcsolat {
     hibakod=1;
     getReszlegek();
     getMunkakorok();
+/* //nigel727
+    try {
+      logXML = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
+      Element gyökér=logXML.createElement("Esemenynaplo");
+      logXML.appendChild(gyökér);
+      //...
+      
+    } catch (ParserConfigurationException e) {
+      e.printStackTrace();
+    }/*
+*/
+    
+  }
+  
+  //by #nigel727
+  public boolean logEvent() {
+    
+    
+    return true;
+  }
+  
+  //by #nigel727:
+  public boolean appendToLogXML() {
+    
+    
+    return true; //hiba jelzésére #todo
   }
   
   public void setLoginOK(boolean loginOK) {
@@ -584,4 +618,31 @@ public class AdatbazisLekerdezBean implements AdatbazisKapcsolat {
     return msg;
   }  
   
-}
+  private static ArrayList<String> getLog() {    
+    Document d=null;
+    try {
+      d=DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(xmlLogFile);
+    } catch(ParserConfigurationException | SAXException | IOException e) {
+      e.printStackTrace();
+    }
+   NodeList _loglista=d.getDocumentElement().getElementsByTagName("Log");
+   ArrayList<String> retval = new ArrayList<>();
+   for(int i=0; i<_loglista.getLength(); i++) {
+      Element log=(Element)_loglista.item(i);
+      Node _time=log.getElementsByTagName("Time").item(0);
+      String idõ=_time.getFirstChild().getNodeValue();
+      Node user = log.getElementsByTagName("User").item(0);
+      String felhasználó=user.getFirstChild().getNodeValue();
+      Node _muvelet = log.getElementsByTagName("Muvelet").item(0);
+      String mûvelet=_muvelet.getFirstChild().getNodeValue();
+      try {
+//      felhasznaloListaXMLbol.add(new User(idõ, felhasználó, mûvelet));
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+      retval.add(idõ+";"+felhasználó+";"+mûvelet);
+   }
+   return retval;
+  }
+  
+}//class AdatbazisLekerdezBean
